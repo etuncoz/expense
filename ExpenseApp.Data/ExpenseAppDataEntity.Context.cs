@@ -7,16 +7,16 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ExpenseApp.Data.Models
+namespace ExpenseApp.Data
 {
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class ExpenseAppDataEntities : DbContext
+    public partial class ExpenseAppEntities : DbContext
     {
-        public ExpenseAppDataEntities()
-            : base("name=ExpenseAppDataEntities")
+        public ExpenseAppEntities()
+            : base("name=ExpenseAppEntities")
         {
         }
     
@@ -29,8 +29,9 @@ namespace ExpenseApp.Data.Models
         public virtual DbSet<Expense> Expenses { get; set; }
         public virtual DbSet<ExpenseHistory> ExpenseHistories { get; set; }
         public virtual DbSet<ExpenseItem> ExpenseItems { get; set; }
-        public virtual DbSet<ExpenseStatus> ExpenseStatus { get; set; }
+        public virtual DbSet<ExpenseStatu> ExpenseStatus { get; set; }
         public virtual DbSet<Log> Logs { get; set; }
+        public virtual DbSet<sysdiagram> sysdiagrams { get; set; }
         public virtual DbSet<UserRole> UserRoles { get; set; }
         public virtual DbSet<User> Users { get; set; }
     }

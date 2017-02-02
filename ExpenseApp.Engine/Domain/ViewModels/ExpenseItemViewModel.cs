@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using ExpenseApp.Data.Models;
-
-namespace ExpenseApp.Engine.Domain.ViewModels
+﻿namespace ExpenseApp.Engine.Domain.ViewModels
 {
     public class ExpenseItemViewModel
     {

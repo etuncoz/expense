@@ -7,21 +7,15 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ExpenseApp.Data.Models
+namespace ExpenseApp.Data
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class ExpenseHistory
+    public partial class Config
     {
         public int ID { get; set; }
-        public int ExpenseId { get; set; }
-        public int ExpenseStatusId { get; set; }
-        public string RejectReason { get; set; }
-        public int CreatedBy { get; set; }
-        public System.DateTime CreatedDate { get; set; }
-    
-        public virtual Expense Expense { get; set; }
-        public virtual ExpenseStatus ExpenseStatus { get; set; }
+        public string ConfigKey { get; set; }
+        public string ConfigValue { get; set; }
     }
 }

@@ -17,7 +17,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="TotalAmount" Type="money" Nullable="false" />
           <Property Name="CreatedDate" Type="datetime" Nullable="false" />
@@ -27,7 +27,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ExpenseId" Type="int" Nullable="false" />
           <Property Name="ExpenseStatusId" Type="int" Nullable="false" />
           <Property Name="RejectReason" Type="nvarchar(max)" />
@@ -38,7 +38,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ExpenseId" Type="int" Nullable="false" />
           <Property Name="Description" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Amount" Type="money" Nullable="false" />
@@ -55,12 +55,22 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Level" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Message" Type="nvarchar(max)" Nullable="false" />
           <Property Name="Exception" Type="nchar" MaxLength="10" Nullable="false" />
           <Property Name="LogDate" Type="datetime" Nullable="false" />
           <Property Name="UserId" Type="int" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
         </EntityType>
         <EntityType Name="UserRole">
           <Key>
@@ -73,7 +83,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Email" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Password" Type="nvarchar(max)" Nullable="false" />
           <Property Name="FullName" Type="nvarchar" MaxLength="50" Nullable="false" />
@@ -160,6 +170,7 @@
           <EntitySet Name="ExpenseItem" EntityType="Self.ExpenseItem" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ExpenseStatus" EntityType="Self.ExpenseStatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Logs" EntityType="Self.Logs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="UserRole" EntityType="Self.UserRole" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Expense_Users" Association="Self.FK_Expense_Users">
@@ -204,7 +215,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="TotalAmount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
@@ -217,27 +228,27 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ExpenseId" Type="Int32" Nullable="false" />
           <Property Name="ExpenseStatusId" Type="Int32" Nullable="false" />
           <Property Name="RejectReason" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="CreatedBy" Type="Int32" Nullable="false" />
           <Property Name="CreatedDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Expense" Relationship="Self.FK_ExpenseHistory_Expense" FromRole="ExpenseHistory" ToRole="Expense" />
-          <NavigationProperty Name="ExpenseStatus" Relationship="Self.FK_ExpenseHistory_ExpenseStatus" FromRole="ExpenseHistory" ToRole="ExpenseStatus" />
+          <NavigationProperty Name="ExpenseStatu" Relationship="Self.FK_ExpenseHistory_ExpenseStatus" FromRole="ExpenseHistory" ToRole="ExpenseStatus" />
         </EntityType>
         <EntityType Name="ExpenseItem">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="ExpenseId" Type="Int32" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="ExpenseItemDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Expense" Relationship="Self.FK_ExpenseItem_Expense" FromRole="ExpenseItem" ToRole="Expense" />
         </EntityType>
-        <EntityType Name="ExpenseStatus">
+        <EntityType Name="ExpenseStatu">
           <Key>
             <PropertyRef Name="ID" />
           </Key>
@@ -249,13 +260,23 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Level" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Message" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Exception" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
           <Property Name="LogDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="UserId" Type="Int32" />
           <NavigationProperty Name="User" Relationship="Self.FK_Logs_Users" FromRole="Logs" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
         </EntityType>
         <EntityType Name="UserRole">
           <Key>
@@ -269,7 +290,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="FullName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
@@ -317,7 +338,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_ExpenseHistory_ExpenseStatus">
-          <End Role="ExpenseStatus" Type="Self.ExpenseStatus" Multiplicity="1" />
+          <End Role="ExpenseStatus" Type="Self.ExpenseStatu" Multiplicity="1" />
           <End Role="ExpenseHistory" Type="Self.ExpenseHistory" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ExpenseStatus">
@@ -352,13 +373,14 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityContainer Name="ExpenseAppDataEntities" annotation:LazyLoadingEnabled="true">
+        <EntityContainer Name="ExpenseAppEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Configs" EntityType="Self.Config" />
           <EntitySet Name="Expenses" EntityType="Self.Expense" />
           <EntitySet Name="ExpenseHistories" EntityType="Self.ExpenseHistory" />
           <EntitySet Name="ExpenseItems" EntityType="Self.ExpenseItem" />
-          <EntitySet Name="ExpenseStatus" EntityType="Self.ExpenseStatus" />
+          <EntitySet Name="ExpenseStatus" EntityType="Self.ExpenseStatu" />
           <EntitySet Name="Logs" EntityType="Self.Log" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
           <EntitySet Name="UserRoles" EntityType="Self.UserRole" />
           <EntitySet Name="Users" EntityType="Self.User" />
           <AssociationSet Name="FK_Expense_Users" Association="Self.FK_Expense_Users">
@@ -391,7 +413,7 @@
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-        <EntityContainerMapping StorageEntityContainer="VeriparkExpenseModelStoreContainer" CdmEntityContainer="ExpenseAppDataEntities">
+        <EntityContainerMapping StorageEntityContainer="VeriparkExpenseModelStoreContainer" CdmEntityContainer="ExpenseAppEntities">
           <EntitySetMapping Name="Configs">
             <EntityTypeMapping TypeName="Veripark.ExpenseModel.Config">
               <MappingFragment StoreEntitySet="Configs">
@@ -436,7 +458,7 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="ExpenseStatus">
-            <EntityTypeMapping TypeName="Veripark.ExpenseModel.ExpenseStatus">
+            <EntityTypeMapping TypeName="Veripark.ExpenseModel.ExpenseStatu">
               <MappingFragment StoreEntitySet="ExpenseStatus">
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="StatusName" ColumnName="StatusName" />
@@ -452,6 +474,17 @@
                 <ScalarProperty Name="Exception" ColumnName="Exception" />
                 <ScalarProperty Name="LogDate" ColumnName="LogDate" />
                 <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="Veripark.ExpenseModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

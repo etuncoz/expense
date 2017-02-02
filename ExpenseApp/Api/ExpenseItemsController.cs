@@ -1,23 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using ExpenseApp.Data.Models;
-using System.Data.Entity;
 using AutoMapper;
+using ExpenseApp.Data;
 using ExpenseApp.Engine.Domain;
+using ExpenseApp.Engine.Request;
 
 namespace ExpenseApp.Api
 {
     public class ExpenseItemsController : ApiController
     {
-        private ExpenseAppDataEntities _db;
+        private ExpenseAppEntities _db;
 
         public ExpenseItemsController()
         {
-            _db = new ExpenseAppDataEntities();
+            _db = new ExpenseAppEntities();
         }
         // GET /api/expenseitems
         public IHttpActionResult GetExpenseItems()
@@ -26,18 +23,18 @@ namespace ExpenseApp.Api
         }
 
         // GET /api/expenseitems/1
-        public IHttpActionResult GetExpenseItem(int id)
-        {
-            var expenseItemsWithId = _db.ExpenseItems.Where(e => e.ExpenseId == id);
+        //public IHttpActionResult GetExpenseItem(IdRequest idRequest )
+        //{
+        //    var expenseItemsWithId = _db.ExpenseItems.Where(e => e.ExpenseId == id);
 
-            if (!expenseItemsWithId.Any())
-                return NotFound();
-            return Ok(expenseItemsWithId.Select(Mapper.Map<ExpenseItem, ExpenseItemDto>));
-        }
+        //    if (!expenseItemsWithId.Any())
+        //        return NotFound();
+        //    return Ok(expenseItemsWithId.Select(Mapper.Map<ExpenseItem, ExpenseItemDto>));
+        //}
 
         // POST /api/expenseitems
         [HttpPost]
-        public IHttpActionResult CreateExpenseItem(IEnumerable<ExpenseItemDto> expenseItemsDto ) //ExpenseItem comes from the request body
+        public IHttpActionResult CreateExpenseItem(IEnumerable<ExpenseItemDto> expenseItemsDto) //ExpenseItem comes from the request body
         {
             if (!ModelState.IsValid)
                 return BadRequest();
@@ -58,23 +55,23 @@ namespace ExpenseApp.Api
         }
 
         // PUT /api/expenseitems/1
-        [HttpPut]
-        public IHttpActionResult UpdateExpenseItem(int id, ExpenseItemDto ExpenseItemDto) //ExpenseItem comes from the request body
-        {
-            if (!ModelState.IsValid)
-                return BadRequest();
+        //[HttpPut]
+        //public IHttpActionResult UpdateExpenseItem(ExpenseRequest request)//(int id, ExpenseItemDto ExpenseItemDto) //ExpenseItem comes from the request body
+        //{
+        //    if (!ModelState.IsValid)
+        //        return BadRequest();
 
-            var expenseItemInDb = _db.ExpenseItems.SingleOrDefault(e => e.ID == id);
+        //    var expenseItemInDb = _db.ExpenseItems.SingleOrDefault(e => e.ID == request.Id);
 
-            if (expenseItemInDb == null)
-                return NotFound();
+        //    if (expenseItemInDb == null)
+        //        return NotFound();
 
-            Mapper.Map(ExpenseItemDto, expenseItemInDb);
+        //    Mapper.Map(request.ExpenseItemDto, expenseItemInDb);
 
-            _db.SaveChanges();
+        //    _db.SaveChanges();
 
-            return Ok();
-        }
+        //    return Ok();
+        //}
 
         // DELETE /api/expenseitems/1
         [HttpDelete]

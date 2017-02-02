@@ -62,80 +62,72 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
-    <Compile Include="Models\AccountViewModels.cs" />
-    <Compile Include="Models\Config.cs">
-      <DependentUpon>ExpenseAppModel.tt</DependentUpon>
+    <Compile Include="Config.cs">
+      <DependentUpon>ExpenseAppDataEntity.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Expense.cs">
-      <DependentUpon>ExpenseAppModel.tt</DependentUpon>
+    <Compile Include="Expense.cs">
+      <DependentUpon>ExpenseAppDataEntity.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ExpenseAppModel.Context.cs">
-      <DependentUpon>ExpenseAppModel.Context.tt</DependentUpon>
+    <Compile Include="ExpenseAppDataEntity.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>ExpenseAppDataEntity.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ExpenseAppModel.cs">
-      <DependentUpon>ExpenseAppModel.tt</DependentUpon>
+    <Compile Include="ExpenseAppDataEntity.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>ExpenseAppDataEntity.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ExpenseAppModel.Designer.cs">
-      <DependentUpon>ExpenseAppModel.edmx</DependentUpon>
+    <Compile Include="ExpenseAppDataEntity.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>ExpenseAppDataEntity.edmx</DependentUpon>
     </Compile>
-    <Compile Include="Models\ExpenseHistory.cs">
-      <DependentUpon>ExpenseAppModel.tt</DependentUpon>
+    <Compile Include="ExpenseHistory.cs">
+      <DependentUpon>ExpenseAppDataEntity.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ExpenseItem.cs">
-      <DependentUpon>ExpenseAppModel.tt</DependentUpon>
+    <Compile Include="ExpenseItem.cs">
+      <DependentUpon>ExpenseAppDataEntity.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\ExpenseStatus.cs">
-      <DependentUpon>ExpenseAppModel.tt</DependentUpon>
+    <Compile Include="ExpenseStatu.cs">
+      <DependentUpon>ExpenseAppDataEntity.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\IdentityModels.cs" />
-    <Compile Include="Models\Log.cs">
-      <DependentUpon>ExpenseAppModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\User.cs">
-      <DependentUpon>ExpenseAppModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\UserRole.cs">
-      <DependentUpon>ExpenseAppModel.tt</DependentUpon>
+    <Compile Include="Log.cs">
+      <DependentUpon>ExpenseAppDataEntity.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EntityDeploy Include="Models\ExpenseAppModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>ExpenseAppModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Models\ExpenseAppModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ExpenseAppModel.edmx</DependentUpon>
-      <LastGenOutput>ExpenseAppModel.Context.cs</LastGenOutput>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Models\ExpenseAppModel.edmx.diagram">
-      <DependentUpon>ExpenseAppModel.edmx</DependentUpon>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Models\ExpenseAppModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>ExpenseAppModel.edmx</DependentUpon>
-      <LastGenOutput>ExpenseAppModel.cs</LastGenOutput>
-    </Content>
+    <Compile Include="sysdiagram.cs">
+      <DependentUpon>ExpenseAppDataEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="User.cs">
+      <DependentUpon>ExpenseAppDataEntity.tt</DependentUpon>
+    </Compile>
+    <Compile Include="UserRole.cs">
+      <DependentUpon>ExpenseAppDataEntity.tt</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <EntityDeploy Include="ExpenseAppDataEntity.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>ExpenseAppDataEntity.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="ExpenseAppDataEntity.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ExpenseAppDataEntity.edmx</DependentUpon>
+      <LastGenOutput>ExpenseAppDataEntity.Context.cs</LastGenOutput>
+    </None>
+    <None Include="ExpenseAppDataEntity.edmx.diagram">
+      <DependentUpon>ExpenseAppDataEntity.edmx</DependentUpon>
+    </None>
+    <None Include="ExpenseAppDataEntity.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>ExpenseAppDataEntity.edmx</DependentUpon>
+      <LastGenOutput>ExpenseAppDataEntity.cs</LastGenOutput>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

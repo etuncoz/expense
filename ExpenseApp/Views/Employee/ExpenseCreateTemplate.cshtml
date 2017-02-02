@@ -1,4 +1,4 @@
-﻿@model ExpenseApp.Engine.ViewModels.ExpenseItemViewModel
+﻿@model ExpenseApp.Engine.Domain.ViewModels.ExpenseViewModel
 @{
     ViewBag.Title = "Expense List";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -72,14 +72,13 @@
             </section>
         </div>
         <p ng-cloak>Total Amount : {{ variables.totalAmount }} TL<p>
-        </br>
+
         <button type="submit" class="btn btn-sm btn-default">Create Expense</button>
     </fieldset>
 </div>
 
 <script>
-    var expenseId = @Model.Expense.ID;
-    var maxExpenseItemId = @Model.MaxExpenseItem;
+    var expenseId = @Model.ExpenseDto.ID;
 </script>
 
 @section angular{  
@@ -88,7 +87,7 @@
 <script src="~/Scripts/angular-route.js"></script>
 <script src="~/Scripts/angular/module/expenseModule.js"></script>
 <script src="~/Scripts/angular/service/expenseService.js"></script>
-<script src="~/Scripts/angular/controller/expenseItemsController.js"></script>
+<script src="~/Scripts/angular/controller/expenseItemsControllerDeneme.js"></script>
 <script src="~/Scripts/angular/directive/expenseItemDirective.js"></script>
 <script src="~/Scripts/moment.js"></script>
 }

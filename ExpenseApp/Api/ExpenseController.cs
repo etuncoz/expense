@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using ExpenseApp.Data.Models;
-using System.Data.Entity;
 using AutoMapper;
+using ExpenseApp.Data;
 using ExpenseApp.Engine.Domain;
+using ExpenseApp.Engine.Request;
+using ExpenseApp.Engine.Handlers;
 
 namespace ExpenseApp.Api
 {
     public class ExpensesController : ApiController
     {
-        private ExpenseAppDataEntities _db;
+        private ExpenseAppEntities _db;
 
         public ExpensesController()
         {
-            _db = new ExpenseAppDataEntities();
+            _db = new ExpenseAppEntities();
         }
 
         // GET /api/expenses
@@ -35,38 +33,34 @@ namespace ExpenseApp.Api
 
         // POST /api/expenses
         [HttpPost]
-        public IHttpActionResult CreateExpense(ExpenseDto ExpenseDto) 
+        public IHttpActionResult CreateExpense(ExpenseRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
-            //-----------BU KISIM HANDLERDA OLACAK-------------
-            var expense = Mapper.Map<ExpenseDto, Expense>(ExpenseDto);
-            _db.Expenses.Add(expense);
-            _db.SaveChanges();
-            ExpenseDto.ID = expense.ID;
-            //-------------------------------
-            //return Created(new Uri(Request.RequestUri + "/" + ExpenseDto.ID),ExpenseDto); //yeni bir linke yönlendirilecekse
+
+            ExpenseHandlers.CreateExpenseByObj(request.ExpenseItemsDto);
+
             return Ok();
         }
 
         // PUT /api/expenses/1
-        [HttpPut]
-        public IHttpActionResult UpdateExpense (fooClass request)//(int id, ExpenseDto ExpenseDto) 
-        {
-            if (!ModelState.IsValid)
-                return BadRequest();
+        //[HttpPut]
+        //public IHttpActionResult UpdateExpense (fooClass request)//(int id, ExpenseDto ExpenseDto) 
+        //{
+        //    if (!ModelState.IsValid)
+        //        return BadRequest();
 
-            var expenseInDb = _db.ExpenseItems.SingleOrDefault(e => e.ID == id);
+        //    var expenseInDb = _db.ExpenseItems.SingleOrDefault(e => e.ID == id);
 
-            if (expenseInDb == null)
-                return NotFound();
+        //    if (expenseInDb == null)
+        //        return NotFound();
 
-            Mapper.Map(ExpenseDto, expenseInDb);
+        //    Mapper.Map(ExpenseDto, expenseInDb);
 
-            _db.SaveChanges();
+        //    _db.SaveChanges();
 
-            return Ok();
-        }
+        //    return Ok();
+        //}
 
         // DELETE /api/expenses/1
         [HttpDelete]
@@ -74,17 +68,10 @@ namespace ExpenseApp.Api
         {
             if (!ModelState.IsValid)
                 return BadRequest();
-
-
-
-            var expenseInDb = _db.Expenses.SingleOrDefault(e => e.ID == id);
-
-            if (expenseInDb == null)
+            if(!ExpenseHandlers.DeleteById(id))
                 return NotFound();
-
-            _db.Expenses.Remove(expenseInDb);
-            _db.SaveChanges();
             return Ok();
+
         }
     }
 }

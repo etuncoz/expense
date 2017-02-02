@@ -7,15 +7,21 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ExpenseApp.Data.Models
+namespace ExpenseApp.Data
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class Config
+    public partial class UserRole
     {
+        public UserRole()
+        {
+            this.Users = new HashSet<User>();
+        }
+    
         public int ID { get; set; }
-        public string ConfigKey { get; set; }
-        public string ConfigValue { get; set; }
+        public string Name { get; set; }
+    
+        public virtual ICollection<User> Users { get; set; }
     }
 }

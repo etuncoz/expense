@@ -7,21 +7,21 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ExpenseApp.Data.Models
+namespace ExpenseApp.Data
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class UserRole
+    public partial class ExpenseHistory
     {
-        public UserRole()
-        {
-            this.Users = new HashSet<User>();
-        }
-    
         public int ID { get; set; }
-        public string Name { get; set; }
+        public int ExpenseId { get; set; }
+        public int ExpenseStatusId { get; set; }
+        public string RejectReason { get; set; }
+        public int CreatedBy { get; set; }
+        public System.DateTime CreatedDate { get; set; }
     
-        public virtual ICollection<User> Users { get; set; }
+        public virtual Expense Expense { get; set; }
+        public virtual ExpenseStatu ExpenseStatu { get; set; }
     }
 }

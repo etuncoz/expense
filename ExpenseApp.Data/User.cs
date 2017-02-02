@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ExpenseApp.Data.Models
+namespace ExpenseApp.Data
 {
     using System;
     using System.Collections.Generic;

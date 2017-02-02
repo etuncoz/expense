@@ -4,11 +4,11 @@
     this.getExpenseItems = function (expenseId) {
         return $http.get("/api/expenseitems/" + expenseId);
     }
-    this.saveExpenseItem = function (expenseItem) {
+    this.saveExpense = function (expense) {
         return $http({
             method:"post",
-            data:expenseItem,
-            url:"/api/expenseitems"
+            data:expense,
+            url:"/api/expenses"
         }); 
     }
     this.updateExpenseItem = function(expenseItemId,expenseItem) {
@@ -25,12 +25,5 @@
     //expenses
     this.getExpenses = function() {
         return $http.get("/api/expenses/");
-    }
-    this.saveExpense = function (expense) {
-        return $http({
-            method: "post",
-            data: expense,
-            url: "/api/expenses"
-        });
     }
 });

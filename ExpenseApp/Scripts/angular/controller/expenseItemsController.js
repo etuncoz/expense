@@ -1,8 +1,11 @@
-﻿app.controller("expenseItemsController", function ($scope, expenseService,$window,$q) {
+﻿app.controller("expenseItemsController", function ($scope, expenseService, $window, $q) {
 
     init();
 
-    function init() { //get expenseItems ..
+    $scope.request = [];
+    $scope.expenseItems = [];
+
+    function init() {
         $scope.variables = { "totalAmount": 0 }
         setNewExpenseItem();
     }
@@ -18,7 +21,7 @@
     }
     function getTotal() {
         var total = 0;
-        $scope.expenseItems.forEach(function(item) {
+        $scope.expenseItems.forEach(function (item) {
             var amount = item.amount;
             if (amount)
                 total += amount;
@@ -34,8 +37,7 @@
         return objProp;
     }
 
-    $scope.expense = {};
-    $scope.expenseItems = [];
+    
 
     //$scope.onlyNumbers = /^\d+$/;
 
@@ -43,43 +45,30 @@
     $scope.addExpenseItem = function () {
         $scope.expenseItems.push($scope.newExpenseItem);
         setNewExpenseItem();
-        getTotal();    
+        getTotal();
     }
     //SAVE EXPENSE
     $scope.saveExpense = function () {
-        //expense objesini createexpense controlünde olustur
-        $scope.expense = {
-            "id": maxExpenseId,
-            "userId": 1,
-            "totalAmount": $scope.variables.totalAmount,
-            "createdDate": moment().format('DD.MM.YYYY').split("+")[0]
-        };
 
-        var saveExpenseCall = expenseService.saveExpense($scope.expense);
-        saveExpenseCall.then(function success(d) {
-                console.log("expense saved successfully");
-            },
-            function error(e) {
-                alert("Error: " + e);
-                console.log(e);
-                return;
-            });
-        //Bunlara gerek yok sadece expenseItems objesini paslayacagiz(IEnum)
-        var promiseArray = [];
-
-        $scope.expenseItems.forEach(function (item, i) {
-            item.expenseId = $scope.expense.id;
+        $scope.expenseItems.forEach(function (item) { //format expenseItem dates
             item.expenseItemDate = formatDate(item.expenseItemDate);
-            var saveExpenseItemCall = expenseService.saveExpenseItem(item);
-            promiseArray.push(saveExpenseItemCall);
+            console.log(item.createdDate);
         });
+        console.log($scope.expenseItems);
+        
 
-        $q.all(promiseArray).then(function () {
-            console.log(promiseArray);
+        $scope.request.push($scope.expenseItems);
+
+        console.log($scope.request);
+
+        var saveExpenseCall = expenseService.saveExpense($scope.request);
+        saveExpenseCall.then(function success(d) {
+            console.log("expense saved successfully");
             $scope.expenseItems = {};
             init();
+        }, function error(e) {
+            alert("Error: " + e);
+            console.log(e);
         });
-        
-        //$window.location = "/employee/index";
     }
 });

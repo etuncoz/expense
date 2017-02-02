@@ -7,21 +7,29 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ExpenseApp.Data.Models
+namespace ExpenseApp.Data
 {
     using System;
     using System.Collections.Generic;
     
-    public partial class ExpenseStatus
+    public partial class Expense
     {
-        public ExpenseStatus()
+        public Expense()
         {
+            UserId = 1;
+            CreatedDate = DateTime.Now;;
             this.ExpenseHistories = new HashSet<ExpenseHistory>();
+            this.ExpenseItems = new HashSet<ExpenseItem>();
         }
     
         public int ID { get; set; }
-        public string StatusName { get; set; }
+        public int UserId { get; set; }
+        public decimal TotalAmount { get; set; }
+        public System.DateTime CreatedDate { get; set; }
+        public Nullable<int> LastExpenseActionId { get; set; }
     
+        public virtual User User { get; set; }
         public virtual ICollection<ExpenseHistory> ExpenseHistories { get; set; }
+        public virtual ICollection<ExpenseItem> ExpenseItems { get; set; }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model ExpenseApp.Engine.Domain.ViewModels.ExpenseItemViewModel
+﻿@model ExpenseApp.Engine.Domain.ViewModels.ExpenseViewModel
 @{
     ViewBag.Title = "Expense List";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -70,11 +70,6 @@
             <button type="submit" class="btn btn-sm btn-default" ng-click="saveExpense()">Save Expense</button>
     </fieldset>
 </div>
-
-<script>
-    var maxExpenseItemId = @Model.MaxExpenseItem;
-    var maxExpenseId = @Model.MaxExpense;
-</script>
 
 @section angular{
     <!-- ANGULARJS -->
