@@ -2,8 +2,9 @@
 
     init();
 
-    $scope.request = [];
+    $scope.request = {};
     $scope.expenseItems = [];
+
 
     function init() {
         $scope.variables = { "totalAmount": 0 }
@@ -57,7 +58,7 @@
         console.log($scope.expenseItems);
         
 
-        $scope.request.push($scope.expenseItems);
+        $scope.request.ExpenseItemsDto = $scope.expenseItems;
 
         console.log($scope.request);
 

@@ -4,7 +4,7 @@ using ExpenseApp.Engine.Domain;
 
 namespace ExpenseApp.Engine.Request
 {
-    public class ExpenseRequest : IEnumerable
+    public class ExpenseRequest
     {
         //public int ID { get; set; }
         //public int ExpenseId { get; set; }
@@ -14,9 +14,5 @@ namespace ExpenseApp.Engine.Request
 
         public IEnumerable<ExpenseItemDto> ExpenseItemsDto { get; set; }
 
-        public IEnumerator GetEnumerator()
-        {
-            throw new System.NotImplementedException();
-        }
     }
 }

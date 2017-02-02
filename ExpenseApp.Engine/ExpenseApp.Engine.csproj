@@ -72,10 +72,11 @@
     <Compile Include="Domain\ViewModels\ExpenseViewModel.cs" />
     <Compile Include="Request\IdRequests.cs" />
     <Compile Include="Request\ExpenseRequest.cs" />
+    <Compile Include="Response\BaseResponse.cs" />
+    <Compile Include="Response\CreateExpenseResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Enum\" />
-    <Folder Include="Response\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ExpenseApp.Data\ExpenseApp.Data.csproj">

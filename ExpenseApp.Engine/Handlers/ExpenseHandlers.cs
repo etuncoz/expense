@@ -5,51 +5,64 @@ using System.Text;
 using System.Threading.Tasks;
 using ExpenseApp.Data;
 using ExpenseApp.Engine.Domain;
+using ExpenseApp.Engine.Response;
 
 namespace ExpenseApp.Engine.Handlers
 {
     public class ExpenseHandlers
     {
-        
-        public static void CreateExpenseByObj(IEnumerable<ExpenseItemDto> expenseItemsDto)
+        public static CreateExpenseResponse CreateExpense(IEnumerable<ExpenseItemDto> expenseItemsDto)
         {
-            ExpenseAppEntities _db = new ExpenseAppEntities();
-
-            Expense expense = new Expense();
-            _db.Expenses.Add(expense);
-            _db.SaveChanges();
-
-            foreach (var item in expenseItemsDto)
+            CreateExpenseResponse response = new CreateExpenseResponse();
+            try
             {
-                ExpenseItem expenseItem = new ExpenseItem();
-                expenseItem.ExpenseId = expense.ID;
-                _db.ExpenseItems.Add(expenseItem);
-                _db.SaveChanges();
+                ExpenseAppEntities expenseAppEntities = new ExpenseAppEntities();
+                Expense expense = new Expense();
+                expenseAppEntities.Expenses.Add(expense);
+                expenseAppEntities.SaveChanges();
 
-                expenseItem.ExpenseItemDate = item.ExpenseItemDate;
-                expenseItem.Description = item.Description;
-                expenseItem.Amount = item.Amount;
+                foreach (var item in expenseItemsDto)
+                {
+                    ExpenseItem expenseItem = new ExpenseItem();
+                    expenseItem.ExpenseId = expense.ID;
+                    expenseAppEntities.ExpenseItems.Add(expenseItem);
+                    expenseAppEntities.SaveChanges();
 
-                expense.TotalAmount += item.Amount;
+                    expenseItem.ExpenseItemDate = item.ExpenseItemDate;
+                    expenseItem.Description = item.Description;
+                    expenseItem.Amount = item.Amount;
 
-                // expenseItem = Mapper.Map<ExpenseItemDto, ExpenseItem>(item);             
+                    expense.TotalAmount += item.Amount;
+
+                    // expenseItem = Mapper.Map<ExpenseItemDto, ExpenseItem>(item);             
+
+                }
+                expenseAppEntities.SaveChanges();
+                response.IsSuccess = true;
 
             }
-            _db.SaveChanges();
+            catch (Exception ex)
+            {
+                response.IsSuccess = false;
+                throw;
+            }
+
+            return response;
         }
 
-        public static bool DeleteById(int id)
+        public static bool DeleteExpenseById(int id)
         {
-            ExpenseAppEntities _db = new ExpenseAppEntities();
-            _db = new ExpenseAppEntities();
+            ExpenseAppEntities expenseAppEntities = new ExpenseAppEntities();
+            expenseAppEntities = new ExpenseAppEntities();
 
-            var expenseInDb = _db.Expenses.SingleOrDefault(e => e.ID == id);
+            var expenseInDb = expenseAppEntities.Expenses.First(e => e.ID == id);
 
             if (expenseInDb == null)
                 return false;
 
-            _db.Expenses.Remove(expenseInDb);
-            _db.SaveChanges();
+            expenseAppEntities.Expenses.Remove(expenseInDb);
+            expenseAppEntities.SaveChanges();
+
             return true;
         }
     }
