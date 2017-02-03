@@ -1,4 +1,4 @@
-﻿app.controller("expenseItemsController", function ($scope, expenseService, $window, $q) {
+﻿app.controller("expenseItemsController", function ($scope, expenseService, $window) {
 
     init();
 
@@ -67,6 +67,7 @@
             console.log("expense saved successfully");
             $scope.expenseItems = {};
             init();
+            $window.location = "/employee/index";
         }, function error(e) {
             alert("Error: " + e);
             console.log(e);

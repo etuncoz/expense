@@ -70,10 +70,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Domain\ViewModels\ExpenseItemViewModel.cs" />
     <Compile Include="Domain\ViewModels\ExpenseViewModel.cs" />
-    <Compile Include="Request\IdRequests.cs" />
-    <Compile Include="Request\ExpenseRequest.cs" />
+    <Compile Include="Request\ExpenseGetRequest.cs" />
+    <Compile Include="Request\ExpenseCreateRequest.cs" />
+    <Compile Include="Request\ExpenseSaveRequest.cs" />
     <Compile Include="Response\BaseResponse.cs" />
-    <Compile Include="Response\CreateExpenseResponse.cs" />
+    <Compile Include="Response\SaveExpenseResponse.cs" />
+    <Compile Include="Response\DeleteExpenseResponse.cs" />
+    <Compile Include="Response\GetExpenseItemsResponse.cs" />
+    <Compile Include="Response\GetExpensesResponse.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Enum\" />

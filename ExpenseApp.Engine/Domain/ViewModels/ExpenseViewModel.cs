@@ -2,7 +2,7 @@
 {
     public class ExpenseViewModel
     {
-        public ExpenseDto ExpenseDto { get; set; }
+        public int ID { get; set; }
 
     }
 }

@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="widget-body no-padding" data-ng-app="expenseModule" ng-controller="expenseItemsController">
+<div class="widget-body no-padding" data-ng-app="expenseModule" ng-controller="editExpenseController">
     <fieldset id="order-form" class="smart-form" novalidate="novalidate">
         <div class="row">
             <section class="form‐group col col-3">
@@ -71,12 +71,13 @@
     </fieldset>
 </div>
 
-@section angular{
 
+@section angular{
     <script type="text/javascript">
         var actionUrls = {
-            SaveExpense: "@Url.RouteUrl("DefaultApi", new { httpRoute = "", controller = "Expenses", action = "CreateExpense" })"
+            GetExpenseItemByExpenseId: "@Url.RouteUrl("DefaultApi", new { httpRoute = "", controller = "Expenses", action = "GetExpenseItemByExpenseId" })"
         };
+        var currentExpenseId = @Model.ID;
     </script>
 
     <!-- ANGULARJS -->
@@ -84,7 +85,7 @@
     <script src="~/Scripts/angular-route.js"></script>
     <script src="~/Scripts/angular/module/expenseModule.js"></script>
     <script src="~/Scripts/angular/service/expenseService.js"></script>
-    <script src="~/Scripts/angular/controller/expenseItemsController.js"></script>
+    <script src="~/Scripts/angular/controller/editExpenseController.js"></script>
     <script src="~/Scripts/angular/directive/expenseItemDirective.js"></script>
     <script src="~/Scripts/moment.js"></script>
 }

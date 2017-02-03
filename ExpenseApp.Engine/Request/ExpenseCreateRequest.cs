@@ -4,7 +4,7 @@ using ExpenseApp.Engine.Domain;
 
 namespace ExpenseApp.Engine.Request
 {
-    public class ExpenseRequest
+    public class ExpenseCreateRequest
     {
         //public int ID { get; set; }
         //public int ExpenseId { get; set; }

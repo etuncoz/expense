@@ -199,6 +199,7 @@
     <Content Include="Content\smartadmin-production.min.css" />
     <Content Include="Content\smartadmin-rtl.min.css" />
     <Content Include="Content\smartadmin-skins.min.css" />
+    <Content Include="Content\ui-bootstrap-csp.css" />
     <Content Include="Content\your_style.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
@@ -231,12 +232,18 @@
     <Content Include="Scripts\angular-scenario.js" />
     <Content Include="Scripts\angular-touch.js" />
     <Content Include="Scripts\angular-touch.min.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap-tpls.min.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.js" />
+    <Content Include="Scripts\angular-ui\ui-bootstrap.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
-    <Content Include="Scripts\angular\controller\expenseController.js" />
+    <Content Include="Scripts\angular\controller\editExpenseController.js" />
+    <Content Include="Scripts\angular\controller\expensesController.js" />
     <Content Include="Scripts\angular\controller\expenseItemsController.js" />
     <Content Include="Scripts\angular\controller\expenseItemsControllerDeneme.js" />
     <Content Include="Scripts\angular\directive\expenseItemDirective.js" />
+    <Content Include="Scripts\angular\directive\pageFilter.js" />
     <Content Include="Scripts\angular\module\expenseModule.js" />
     <Content Include="Scripts\angular\service\expenseService.js" />
     <Content Include="Scripts\app.config.js" />
@@ -1494,6 +1501,7 @@
     <Content Include="Scripts\plugin\ckeditor\skins\moono\readme.md" />
     <Content Include="Scripts\version.json" />
     <Content Include="Views\Employee\CreateExpense.cshtml" />
+    <Content Include="Views\Employee\EditExpense.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -11,36 +11,41 @@ namespace ExpenseApp.Api
 {
     public class ExpensesController : ApiController
     {
-        private ExpenseAppEntities _db;
-
-        public ExpensesController()
-        {
-            _db = new ExpenseAppEntities();
-        }
-
         // GET /api/expenses
-        public IHttpActionResult GetExpenses()
-        {
-            return Ok(_db.Expenses.ToList().Select(Mapper.Map<Expense, ExpenseDto>));
-        }
+        //public IHttpActionResult GetExpenses()
+        //{
+        //    return Ok(_db.Expenses.ToList().Select(Mapper.Map<Expense, ExpenseDto>));
+        //}
 
-        // GET /api/expenses/1
-        public IHttpActionResult GetExpense(int id)
-        {   
-            //UserId'ye göre GET ??
-            return Ok();
-        }
 
-        // POST /api/expenses
+        // POST /api/expenses/getExpenseByUserId
         [HttpPost]
-        public IHttpActionResult CreateExpense(ExpenseRequest request)
+        public IHttpActionResult GetExpenseByUserId(ExpenseGetRequest request)
+        {
+            if (request == null)
+                return BadRequest();
+            return Ok(ExpenseHandlers.GetExpenseByUserId(request.UserId));
+        }
+
+        // POST /api/expenses/createexpense
+        [HttpPost]
+        public IHttpActionResult CreateExpense(ExpenseCreateRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
 
-            ExpenseHandlers.CreateExpenseByObj(request.ExpenseItemsDto);
+            ExpenseHandlers.CreateExpense(request.ExpenseItemsDto);
 
             return Ok();
+        }
+
+        //POST /api/expenses/getExpenseItemByExpenseId
+        [HttpPost]
+        public IHttpActionResult GetExpenseItemByExpenseId(ExpenseGetRequest request)
+        {
+            if (request == null)
+                return BadRequest();
+            return Ok(ExpenseHandlers.GetExpenseItemsByExpenseId(request.ExpenseId));
         }
 
         // PUT /api/expenses/1
@@ -64,11 +69,11 @@ namespace ExpenseApp.Api
 
         // DELETE /api/expenses/1
         [HttpDelete]
-        public IHttpActionResult DeleteExpense(int id)
+        public IHttpActionResult DeleteExpense(ExpenseGetRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
-            if(!ExpenseHandlers.DeleteById(id))
+            if (!ExpenseHandlers.DeleteExpenseById(request.ExpenseId).IsSuccess)
                 return NotFound();
             return Ok();
 

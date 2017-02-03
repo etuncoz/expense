@@ -1,48 +1,53 @@
-﻿@model ExpenseApp.Engine.Domain.ViewModels.ExpenseViewModel
-@{
-    ViewBag.Title = "Index";
-
-    
+﻿@{
+    ViewBag.Title = "Expense Lists";
 }
 
-<h2>Expense List</h2>
+<h2>Expense Lists</h2>
 
-<a href="~/Employee/CreateExpense"class="btn btn-default btn-sm">Create Expense</a>
-    <div class="table-responsive">
+<div class="table-responsive" data-ng-app="expenseModule" data-ng-controller="expensesController">
 
-        <table class="table table-bordered table-hover">
-            <thead>
-                <tr>
-                    <th>Created Date</th>
-                    <th>User</th>
-                    <th>Total Amount</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-                    @foreach (var e in Model.Expenses)
-                    {
-                        <tr>
-                            <td>@e.CreatedDate</td>
-                            <td>@e.UserId</td>
-                            <td>@e.TotalAmount</td>
-                            <td>@e.LastExpenseActionId</td>
-                            <td><a href="#"class="btn btn-default btn-sm">Inspect</a></td>
-                        </tr>
-                    }
-            </tbody>
-        </table>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th class="col-md-2">Created Date</th>
+                <th class="col-md-2">Total Amount</th>
+                <th class="col-md-2">Status</th>
+                <th class="col-md-2">Links</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="expense in expenses | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
+                <td class="col-md-2">{{expense.createdDate}}</td>
+                <td class="col-md-2">{{expense.totalAmount}}</td>
+                <td class="col-md-2">{{expense.lastExpenseActionId}}</td>
+                <td class="col-md-2">
+                    <a href="#" class="btn btn-default btn-sm">Send</a>
+                    <a href="~/employee/editexpense/{{expense.id}}" class="btn btn-default btn-sm">Edit</a>
+                    <a href="#" class="btn btn-default btn-sm">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <pagination data-boundary-links="true" data-num-pages="noOfPages" data-current-page="currentPage" max-size="maxSize" class="pagination-small" data-previous-text="&laquo;" data-next-text="&raquo;"></pagination>
+    <a href="~/Employee/CreateExpense" class="btn btn-default btn-sm">Create Expense</a>
+</div>
 
-    </div>
 
 @section angular{
+
+    <script type="text/javascript">
+    var actionUrls = {
+        GetAllExpenses: "@Url.RouteUrl("DefaultApi", new { httpRoute = "", controller = "Expenses", action = "GetExpenseByUserId" })"
+        };
+    </script>
+
     <!-- ANGULARJS -->
     <script src="~/Scripts/angular.js"></script>
     <script src="~/Scripts/angular-route.js"></script>
+    <script src="~/Scripts/angular-ui/ui-bootstrap.js"></script>
     <script src="~/Scripts/angular/module/expenseModule.js"></script>
     <script src="~/Scripts/angular/service/expenseService.js"></script>
-    <script src="~/Scripts/angular/controller/expenseItemsController.js"></script>
-    <script src="~/Scripts/angular/directive/expenseItemDirective.js"></script>
+    <script src="~/Scripts/angular/controller/expensesController.js"></script>
+    <script src="~/Scripts/angular/directive/pageFilter.js"></script>
     <script src="~/Scripts/moment.js"></script>
 }
