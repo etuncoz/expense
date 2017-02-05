@@ -1,0 +1,57 @@
+﻿@{
+    ViewBag.Title = "Expense Lists";
+}
+
+<div class="row">
+    <div class="jumbotron" data-ng-app="expenseModule" data-ng-controller="expensesController">
+        <div class="row">
+            <table class="table table-bordered table-hover">
+                <thead>
+                <tr>
+                    <th class="col-md-3">Created Date</th>
+                    <th class="col-md-3">Total Amount</th>
+                    <th class="col-md-3">Status</th>
+                    <th class="col-md-3">Links</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr ng-repeat="expense in expenses | startFrom:(currentPage-1)*pageSize |limitTo:pageSize  ">
+                    <!--startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit-->
+                    <td>{{expense.createdDate}}</td>
+                    <td>{{expense.totalAmount}}</td>
+                    <td>{{expense.lastExpenseActionId}}</td>
+                    <td>
+                        <a href="#" class="btn btn-default btn-sm">Send</a>
+                        <a href="/employee/saveexpense/{{expense.id}}" class="btn btn-default btn-sm">Edit</a>
+                        <button class="btn btn-default btn-sm" confirmed-click="deleteExpense({{expense.id}})" ng-confirm-click="">Delete</button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+                <ul uib-pagination total-items="expenses.length" ng-model="currentPage" items-per-page="pageSize" class="pull-right"></ul>
+                <br />
+                <a href="~/employee/saveexpense/0" class="btn btn-default btn-sm">Create Expense</a>
+        </div>
+    </div>
+</div>
+
+
+@section angular{
+    <script type="text/javascript">
+        var actionUrls = {
+            getExpenseByUserId: "@Url.RouteUrl("DefaultApi", new { httpRoute = "", controller = "Expenses", action = "GetExpenseByUserId" })",
+            deleteExpense:"@Url.RouteUrl("DefaultApi", new { httpRoute = "", controller = "Expenses", action = "DeleteExpense" })"
+        };
+    </script>
+
+    <!-- ANGULARJS -->
+
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts/angular-route.js"></script>
+    <script src="~/Scripts/angular/module/expenseModule.js"></script>
+    <script src="~/Scripts/angular/service/expenseService.js"></script>
+    <script src="~/Scripts/angular/directive/confirmationDirective.js"></script>
+    <script src="~/Scripts/angular/directive/pageFilter.js"></script>
+    <script src="~/Scripts/angular/controller/expensesController.js"></script>
+    <script src="~/Scripts/moment.js"></script>
+}

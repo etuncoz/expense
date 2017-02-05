@@ -1,0 +1,94 @@
+﻿@model ExpenseApp.Engine.Domain.ViewModels.ExpenseViewModel
+@{
+    ViewBag.Title = "Expense List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="widget-body no-padding" data-ng-app="expenseModule" ng-controller="saveExpenseController">
+    <fieldset id="order-form" class="smart-form" novalidate="novalidate">
+        <div class="row">
+            <section class="form‐group col col-3">
+                <label><strong>Date</strong></label>
+            </section>
+            <section class="form‐group col col-3">
+                <label><strong>Amount</strong></label>
+            </section>
+            <section class="form‐group col col-3">
+                <label><strong>Description</strong></label>
+            </section>
+        </div>
+    </fieldset>
+    <fieldset id="ExpenseItemLine" class="smart-form" novalidate="novalidate" ng-show="expenseItems" ng-cloak ng-repeat="item in expenseItems">
+        <div class="row">
+            <section class="form‐group col col-3">
+                <label hidden="hidden">{{item.id}}</label>
+                <label hidden="hidden">{{item.expenseId}}</label>
+                <div class="input">
+                    <i class="icon-append fa fa-calendar"></i>
+                    <input type="text" class="expenseDate" placeholder="Expense Date" value="{{ item.expenseItemDate | date:'dd.MM.yyyy' }}" ng-model="item.expenseItemDate" datepicker="">
+                </div>
+            </section>
+            <section class="form‐group col col-3">
+                <label class="input">
+                    <input class="form-control" type="number" min="1" maxlength="5" placeholder="Price" value="{{ item.amount }}" ng-model="item.amount" ng-change="getTotal()">
+                </label>
+            </section>
+            <section class="form‐group col col-3">
+                <label class="input">
+                    <input class="form-control" type="text" maxlength="50" placeholder="Description" value="{{ item.description }}" ng-model="item.description">
+                </label>
+            </section>
+        </div>
+
+    </fieldset>
+    <fieldset id="newExpenseItemLine" class="smart-form" novalidate="novalidate">
+
+        <div class="row">
+            <label hidden="hidden" ng-value="newExpenseItem.id"></label>
+            <section class="form‐group col col-3">
+                <div class="input">
+                    <i class="icon-append fa fa-calendar"></i>
+
+                    <input type="text" class="form-control" name="newExpenseDate" id="newExpenseDate" placeholder="Expense date" ng-model="newExpenseItem.expenseItemDate" datepicker="">
+                </div>
+            </section>
+            <section class="form‐group col col-3">
+                <label class="input">
+                    <input class="form-control" type="number" min="1" maxlength="5" placeholder="Price" ng-model="newExpenseItem.amount">
+                </label>
+            </section>
+            <section class="form‐group col col-3">
+                <label class="input">
+                    <input class="form-control" type="text" maxlength="50" placeholder="Description" ng-model="newExpenseItem.description">
+                </label>
+            </section>
+            <section class="form‐group col col-3">
+                <button type="button" class="btn btn-sm btn-default" ng-click="addExpenseItem()">Add</button>
+            </section>
+        </div>
+        <p ng-cloak>Total Amount : {{ variables.totalAmount }} TL<p>
+        <br />
+        <button type="submit" class="btn btn-sm btn-default" ng-click="saveExpense()">Save Expense</button>
+    </fieldset>
+</div>
+
+
+@section angular{
+    <script type="text/javascript">
+        var actionUrls = {
+            getExpenseItemByExpenseId: "@Url.RouteUrl("DefaultApi", new { httpRoute = "", controller = "Expenses", action = "GetExpenseItemByExpenseId" })",
+            saveExpense : "@Url.RouteUrl("DefaultApi", new { httpRoute = "", controller = "Expenses", action = "SaveExpense" })"
+        };
+        var currentExpenseId = @Model.ID;
+    </script>
+
+    <!-- ANGULARJS -->
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts/angular-route.js"></script>
+
+    <script src="~/Scripts/angular/module/expenseModule.js"></script>
+    <script src="~/Scripts/angular/service/expenseService.js"></script>
+    <script src="~/Scripts/angular/controller/saveExpenseController.js"></script>
+    <script src="~/Scripts/angular/directive/datepickerDirective.js"></script>
+    <script src="~/Scripts/moment.js"></script>
+}
