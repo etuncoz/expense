@@ -1,0 +1,55 @@
+﻿
+@{
+    ViewBag.Title = "Approval";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row" data-ng-app="expenseModule" data-ng-controller="approvalExpenseController">
+    <div class="jumbotron">
+        <div class="row">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th class="col-md-3">Date</th>
+                        <th class="col-md-3">Amount</th>
+                        <th class="col-md-3">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in expenseItems">
+                        <td>{{item.expenseItemDate}}</td>
+                        <td>{{item.amount}}</td>
+                        <td>{{item.description}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <label ng-cloak>Total Amount : {{ variables.totalAmount }} TL</label><br />
+        <div ng-show="!variables.isApprovedOrRejected">
+            <button class="btn btn-sm btn-primary " ng-click="approve()">Approve</button>
+            <button class="btn btn-sm btn-danger pull-right" ng-click="reject()">Reject</button>
+            <br />
+            <textarea ng-model="variables.rejectReason" maxlength="255" placeholder="Please include your reject reason" class="pull-right" style="width: 300px; height: 100px; resize: none;"></textarea>
+        </div>
+
+    </div>
+</div>
+
+@section angular{
+    <script type="text/javascript">
+    var actionUrls = {
+        getExpenseItemByExpenseId: "@Url.RouteUrl("DefaultApi", new { httpRoute = "", controller = "Expenses", action = "GetExpenseItemByExpenseId" })",
+        approveOrRejectExpense   : "@Url.RouteUrl("DefaultApi", new { httpRoute = "", controller = "Expenses", action = "ApproveOrRejectExpense" })",
+        getCurrentExpenseStatus  : "@Url.RouteUrl("DefaultApi", new { httpRoute = "", controller = "Expenses", action = "GetCurrentExpenseStatus" })"
+    };
+    var currentExpenseId = @Model.ID;
+    </script>
+
+    <!-- ANGULARJS -->
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts/angular-route.js"></script>
+    <script src="~/Scripts/angular/module/expenseModule.js"></script>
+    <script src="~/Scripts/angular/service/expenseService.js"></script>
+    <script src="~/Scripts/angular/controller/approvalExpenseController.js"></script>
+    <script src="~/Scripts/moment.js"></script>
+}

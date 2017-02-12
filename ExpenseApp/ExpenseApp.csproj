@@ -153,7 +153,15 @@
     <Content Include="Scripts\angular-touch.min.js.map" />
     <Content Include="Scripts\angular-ui\ui-bootstrap-tpls-2.5.0.min.js" />
     <Content Include="Scripts\angular.min.js.map" />
+    <Content Include="Scripts\angular\controller\accountantController.js" />
+    <Content Include="Scripts\angular\controller\approvalExpenseController.js" />
+    <Content Include="Scripts\angular\controller\employeeController.js" />
+    <Content Include="Scripts\angular\controller\layoutController.js" />
+    <Content Include="Scripts\angular\controller\loginController.js" />
+    <Content Include="Scripts\angular\controller\managerController.js" />
+    <Content Include="Scripts\angular\controller\paymentExpenseController.js" />
     <Content Include="Scripts\angular\directive\confirmationDirective.js" />
+    <Content Include="Scripts\angular\directive\modalDirective.js" />
     <Content Include="Scripts\errors.json" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
     <Content Include="Scripts\libs\jquery-2.1.1.min.map" />
@@ -167,6 +175,11 @@
     <Content Include="Scripts\plugin\ckeditor\samples\plugins\htmlwriter\assets\outputforflash\outputforflash.fla" />
     <Content Include="Scripts\plugin\ckeditor\skins\moono\readme.md" />
     <Content Include="Scripts\version.json" />
+    <Content Include="Views\Accountant\Index.cshtml" />
+    <Content Include="Views\Accountant\Payment.cshtml" />
+    <Content Include="Views\Manager\Approval.cshtml" />
+    <Content Include="Views\Manager\Index.cshtml" />
+    <Content Include="Views\Home\Login.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -1469,15 +1482,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Api\ExpenseController.cs" />
-    <Compile Include="Api\ExpenseItemsController.cs" />
+    <Compile Include="Api\UserController.cs" />
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\MappingProfile.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\AccountantController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ManagerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

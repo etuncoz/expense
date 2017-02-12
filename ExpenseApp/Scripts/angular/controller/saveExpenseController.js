@@ -4,28 +4,33 @@
     function init() {
         var currentExpenseId = window.currentExpenseId;
 
+        var currentUserId = window.currentUserId;
+        console.log(currentUserId);
+
         $scope.expenseItems = [];
+        $scope.deletedExpenseItems = [];
         $scope.request = {};
         $scope.variables = { "totalAmount": 0 };
         $scope.request.ExpenseId = currentExpenseId;
-        setNewExpenseItem();
-        if (currentExpenseId>0)//
+        $scope.request.UserId = currentUserId;
+        setDefaults();
+        if (currentExpenseId > 0)//
             getExpenseItems();
-
     }
-    function formatDate(objProp, isComingFromDb) {
-        var dateString = objProp;
-        if (isComingFromDb) {    
+
+    function formatDate(date, isComingFromDb) {
+        var dateString = date;
+        if (isComingFromDb) {
             var momentDateObj = moment(dateString, 'YYYY-MM-DD');
             var momentDateString = momentDateObj.format('DD.MM.YYYY').split("T")[0];
-            objProp = momentDateString;
-            return objProp;
+            date = momentDateString;
+            return date;
         }
         else {
             var momentDateObj = moment(dateString, 'DD.MM.YYYY');
             var momentDateString = momentDateObj.format().split("+")[0];
-            objProp = momentDateString;
-            return objProp;
+            date = momentDateString;
+            return date;
         }
 
     }
@@ -45,7 +50,7 @@
             console.log(d.data);
             d.data.expenseItemDto.forEach(function (item) {
                 $scope.variables.totalAmount += item.amount;
-                item.expenseItemDate = formatDate(item.expenseItemDate,true);
+                item.expenseItemDate = formatDate(item.expenseItemDate, true);
                 $scope.expenseItems.push(item);
             });
             console.log($scope.expenseItems);
@@ -54,7 +59,7 @@
         });
     }
 
-    function setNewExpenseItem() {
+    function setDefaults() {
         $scope.newExpenseItem = {
             id: 0,
             expenseId: 0,
@@ -62,31 +67,52 @@
             description: '',
             expenseItemDate: ''
         };
+        deletedExpenseItem = {
+            id: 0
+        };
     }
 
     $scope.addExpenseItem = function () {
         $scope.expenseItems.push($scope.newExpenseItem);
-        setNewExpenseItem();
+        setDefaults();
+        $scope.getTotal();
+    }
+
+    $scope.deleteExpenseItem = function (expenseItemId) {
+        var indexOfDeletedItem = null;
+        $scope.expenseItems.forEach(function (item,index) { //find item index to call splice
+            if (item.id === expenseItemId)
+                indexOfDeletedItem = index;
+        });
+
+        deletedExpenseItem.id = expenseItemId;
+        $scope.deletedExpenseItems.push(deletedExpenseItem);
+
+        $scope.expenseItems.splice(indexOfDeletedItem, 1);
         $scope.getTotal();
     }
 
     $scope.saveExpense = function () {
 
-        $scope.expenseItems.forEach(function (item) { //format expenseItem dates
-            item.expenseItemDate = formatDate(item.expenseItemDate,false);
+        $scope.expenseItems.forEach(function (item) {
+            item.expenseItemDate = formatDate(item.expenseItemDate, false);
         });
 
+        $scope.request.DeletedExpenseItems = $scope.deletedExpenseItems;
         $scope.request.ExpenseItemsDto = $scope.expenseItems;
 
         console.log($scope.request);
 
         var saveExpenseCall = expenseService.saveExpense($scope.request);
-        saveExpenseCall.then(function success() {
+        saveExpenseCall.then(function success(d) {
             console.log("expense saved successfully");
-            $scope.expenseItems = {};
-            init();
-            $window.location = "/employee/index";
+            $scope.expenseItems = [];
+            $scope.deletedExpenseItems = [];
+            $window.location = d.data.redirectionUrl;
         }, function error(e) {
+            $scope.expenseItems.forEach(function (item) { 
+                item.expenseItemDate = formatDate(item.expenseItemDate, true);
+            });
             console.log(e);
         });
     }

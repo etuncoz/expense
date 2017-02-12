@@ -14,10 +14,14 @@ namespace ExpenseApp.Data
     
     public partial class Expense
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Expense()
         {
-            UserId = 3;
+            
+        }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Expense(int userId)
+        {
+            UserId = userId;
             CreatedDate = DateTime.Now;
             this.ExpenseHistories = new HashSet<ExpenseHistory>();
             this.ExpenseItems = new HashSet<ExpenseItem>();

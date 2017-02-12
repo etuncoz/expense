@@ -7,5 +7,6 @@
         public int ExpenseId { get; set; }
 
         public int LastExpenseActionId { get; set; }
+
     }
 }

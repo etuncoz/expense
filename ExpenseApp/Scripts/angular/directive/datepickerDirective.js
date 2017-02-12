@@ -6,7 +6,7 @@
             $(el).datepicker({
                 prevText: '<i class="fa fa-chevron-left"></i>',
                 nextText: '<i class="fa fa-chevron-right"></i>',
-                dateFormat:'dd.mm.yy',
+                dateFormat: 'dd.mm.yy',
                 onSelect: function (dateText) {
                     scope.$apply(function () {
                         ngModel.$setViewValue(dateText);

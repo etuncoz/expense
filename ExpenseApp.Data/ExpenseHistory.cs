@@ -14,6 +14,17 @@ namespace ExpenseApp.Data
     
     public partial class ExpenseHistory
     {
+        public ExpenseHistory()
+        {
+
+        }
+        public ExpenseHistory(int expenseId, int userId)
+        {
+            CreatedDate = DateTime.Now;
+            ExpenseId = expenseId;
+            CreatedBy = userId;
+            RejectReason = "";
+        }
         public int ID { get; set; }
         public int ExpenseId { get; set; }
         public int ExpenseStatusId { get; set; }

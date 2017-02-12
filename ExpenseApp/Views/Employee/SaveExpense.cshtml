@@ -21,23 +21,44 @@
     <fieldset id="ExpenseItemLine" class="smart-form" novalidate="novalidate" ng-show="expenseItems" ng-cloak ng-repeat="item in expenseItems">
         <div class="row">
             <section class="form‐group col col-3">
-                <label hidden="hidden">{{item.id}}</label>
-                <label hidden="hidden">{{item.expenseId}}</label>
                 <div class="input">
                     <i class="icon-append fa fa-calendar"></i>
-                    <input type="text" class="expenseDate" placeholder="Expense Date" value="{{ item.expenseItemDate | date:'dd.MM.yyyy' }}" ng-model="item.expenseItemDate" datepicker="">
+                    <input 
+                        type="text" 
+                        class="expenseDate" 
+                        placeholder="Expense Date" 
+                        value="{{ item.expenseItemDate | date:'dd.MM.yyyy' }}" 
+                        ng-model="item.expenseItemDate" 
+                        datepicker="">
                 </div>
             </section>
             <section class="form‐group col col-3">
                 <label class="input">
-                    <input class="form-control" type="number" min="1" maxlength="5" placeholder="Price" value="{{ item.amount }}" ng-model="item.amount" ng-change="getTotal()">
+                    <input 
+                        class="form-control"
+                        type="number" 
+                        min="1" 
+                        max="10000"
+                        value="{{ item.amount }}"
+                        ng-model="item.amount"
+                        ng-change="getTotal()">
                 </label>
             </section>
             <section class="form‐group col col-3">
                 <label class="input">
-                    <input class="form-control" type="text" maxlength="50" placeholder="Description" value="{{ item.description }}" ng-model="item.description">
+                    <input 
+                        class="form-control"
+                        type="text"
+                        maxlength="50"
+                        placeholder="Description"
+                        value="{{ item.description }}"
+                        ng-model="item.description">
                 </label>
             </section>
+            <section class="form‐group col col-3">
+                <button type="button" class="btn btn-sm btn-default" ng-click=deleteExpenseItem(item.id)>Delete</button>
+            </section>
+           
         </div>
 
     </fieldset>
@@ -49,12 +70,26 @@
                 <div class="input">
                     <i class="icon-append fa fa-calendar"></i>
 
-                    <input type="text" class="form-control" name="newExpenseDate" id="newExpenseDate" placeholder="Expense date" ng-model="newExpenseItem.expenseItemDate" datepicker="">
+                    <input 
+                        type="text"
+                        class="form-control"
+                        name="newExpenseDate"
+                        id="newExpenseDate"
+                        placeholder="Expense date"
+                        ng-model="newExpenseItem.expenseItemDate"
+                        ng-pattern="/^(\d{2}).(\d{2}).(\d{4})$/"
+                        datepicker="">
                 </div>
             </section>
             <section class="form‐group col col-3">
                 <label class="input">
-                    <input class="form-control" type="number" min="1" maxlength="5" placeholder="Price" ng-model="newExpenseItem.amount">
+                    <input 
+                        class="form-control"
+                        type="number" 
+                        min="1"
+                        max="10000"
+                        ng-model="newExpenseItem.amount">
+                        
                 </label>
             </section>
             <section class="form‐group col col-3">
@@ -67,8 +102,8 @@
             </section>
         </div>
         <p ng-cloak>Total Amount : {{ variables.totalAmount }} TL<p>
-        <br />
-        <button type="submit" class="btn btn-sm btn-default" ng-click="saveExpense()">Save Expense</button>
+            <br />
+            <button type="submit" class="btn btn-sm btn-primary" ng-click="saveExpense()">Save Expense</button>
     </fieldset>
 </div>
 
@@ -80,6 +115,7 @@
             saveExpense : "@Url.RouteUrl("DefaultApi", new { httpRoute = "", controller = "Expenses", action = "SaveExpense" })"
         };
         var currentExpenseId = @Model.ID;
+        var currentUserId = @Model.UserId;
     </script>
 
     <!-- ANGULARJS -->

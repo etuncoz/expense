@@ -1,37 +1,66 @@
 ﻿app.service("expenseService", function ($http) {
+    //login
+    this.login = function (request) {
+        return $http({
+            method: "post",
+            data: request,
+            url: window.actionUrls.login
+        });
+    }
 
-    //expenseitems 
-    //this.getExpenseItems = function (expenseId) {
-    //    return $http.get("/api/expenseitems/" + expenseId);
-    //}
-
-    //this.updateExpenseItem = function(expenseItemId,expenseItem) {
-    //    return $http({
-    //        method: "put",
-    //        data: expenseItem,
-    //        url: "/api/expenseitems/" + expenseItemId
-    //    });
-    //}
-    //this.deleteExpenseItem = function(expenseItemId) {
-    //    return $http.delete("/api/expenseitems/" + expenseItemId);
-    //}
+    this.checkUserActivity = function () {
+        return $http.get(window.userUrls.checkUserActivity);
+    }
 
     //expenses
-    this.getExpenseByUserId = function(request) { //for listing expenses on index page
+    this.getExpenseByUserId = function (request) { //for employee/index
         return $http({
-            method:"post",
+            method: "post",
             data: request,
             url: window.actionUrls.getExpenseByUserId
         });
     }
-    this.getExpenseItemByExpenseId = function (request) { //for saveexpense page
+    this.getExpenseByActionId = function (request) {//for manager/index
+        return $http({
+            method:"post",
+            data:request,
+            url:window.actionUrls.getExpenseByActionId
+        });
+    }
+
+    this.getExpenseItemByExpenseId = function (request) { //for employee/saveexpense
         return $http({
             method: "post",
             data: request,
             url: window.actionUrls.getExpenseItemByExpenseId
         });
     }
-    this.saveExpense = function(request) {
+
+    this.sendExpenseForApproval = function (request) { // employee sends expense to management
+        return $http({
+            method: "post",
+            data: request,
+            url: window.actionUrls.sendExpenseForApproval
+        });
+    }
+
+    this.approveOrRejectExpense = function (request) {
+        return $http({
+            method: "post",
+            data: request,
+            url: window.actionUrls.approveOrRejectExpense
+        });
+    }
+
+    this.payExpense = function (request) {
+        return $http({
+            method: "post",
+            data: request,
+            url: window.actionUrls.payExpense
+        });
+    }
+
+    this.saveExpense = function (request) {
         return $http({
             method: "post",
             data: request,
@@ -44,6 +73,14 @@
             method: "post",
             data: request,
             url: window.actionUrls.deleteExpense
+        });
+    }
+
+    this.getCurrentExpenseStatus = function (request) {
+        return $http({
+            method: "post",
+            data: request,
+            url: window.actionUrls.getCurrentExpenseStatus
         });
     }
 });

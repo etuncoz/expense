@@ -1,4 +1,13 @@
-﻿using System.Web.Mvc;
+﻿using System;
+using System.Web.Mvc;
+using System.Linq;
+using ExpenseApp.Data;
+using System.Data.Entity;
+using ExpenseApp.Engine.Response;
+using ExpenseApp.Engine.Request;
+using ExpenseApp.Engine.Domain;
+using ExpenseApp.Engine.Handlers;
+
 
 namespace ExpenseApp.Controllers
 {
@@ -8,19 +17,26 @@ namespace ExpenseApp.Controllers
         {
             return View();
         }
-
-        public ActionResult About()
+        public ActionResult Login()
         {
-            ViewBag.Message = "Your application description page.";
-
             return View();
         }
 
-        public ActionResult Contact()
+        [HttpPost]
+        public ActionResult Login(LoginRequest request)
         {
-            ViewBag.Message = "Your contact page.";
+            if (!ModelState.IsValid)
+                return RedirectToAction("Login", "Home");
+            if (!UserHandlers.Login(request).IsSuccess)
+                return RedirectToAction("Login", "Home");
+            return Json(UserHandlers.Login(request));
+        }
 
-            return View();
+        public ActionResult Logoff()
+        {
+            if (UserHandlers.Logoff().IsSuccess)
+                return RedirectToAction("Login", "Home");
+            return RedirectToAction("Index", "Home");
         }
     }
 }

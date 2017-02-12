@@ -38,3 +38,4 @@ C:\Users\Ege\Documents\Visual Studio 2015\Projects\ExpenseApp\ExpenseApp.Engine\
 C:\Users\Ege\Documents\Visual Studio 2015\Projects\ExpenseApp\ExpenseApp.Engine\obj\Debug\ExpenseApp.Engine.csprojResolveAssemblyReference.cache
 C:\Users\Ege\Documents\Visual Studio 2015\Projects\ExpenseApp\ExpenseApp.Engine\obj\Debug\ExpenseApp.Engine.dll
 C:\Users\Ege\Documents\Visual Studio 2015\Projects\ExpenseApp\ExpenseApp.Engine\obj\Debug\ExpenseApp.Engine.pdb
+C:\Users\Ege\Documents\Visual Studio 2015\Projects\ExpenseApp\ExpenseApp.Engine\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
