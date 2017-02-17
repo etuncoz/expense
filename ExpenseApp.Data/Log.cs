@@ -20,7 +20,5 @@ namespace ExpenseApp.Data
         public string Exception { get; set; }
         public System.DateTime LogDate { get; set; }
         public Nullable<int> UserId { get; set; }
-    
-        public virtual User User { get; set; }
     }
 }

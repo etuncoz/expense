@@ -1,0 +1,102 @@
+﻿
+@{
+    ViewBag.Title = "Login";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    input.ng-invalid.ng-dirty {
+        border: 1px solid red;
+    }
+
+    .err {
+        color: red;
+    }
+</style>
+
+<div class="row">
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4"></div>
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="well no-padding" style="margin-top:10%;">
+            <form name="Login" id="login-form" class="smart-form client-form" data-ng-app="expenseModule" ng-controller="loginController">
+                <header>
+                    Sign In
+                </header>
+
+                <fieldset>
+                    <span class="err" ng-show="loginFailed">Incorrect Email or Password</span>
+                    <section>
+                        <label class="label">E-mail</label>
+                        <label class="input">
+                            <i class="icon-append fa fa-user"></i>
+                            <input 
+                                   type="email" 
+                                   name="email" 
+                                   ng-model="user.email"
+                                   ng-minlength="7"
+                                   ng-maxlength="25"
+                                   required>
+                            <b class="tooltip tooltip-top-right"><i class="fa fa-user txt-color-teal"></i> Please enter your email address</b>
+                            <span class="err" ng-show="Login.email.$invalid && !Login.email.$pristine">Invalid Email</span>
+                        </label>
+                    </section>
+
+                    <section>
+                        <label class="label">Password</label>
+                        <label class="input">
+                            <i class="icon-append fa fa-lock"></i>
+                            <input 
+                                   type="password" 
+                                   name="password" 
+                                   ng-model="user.password"
+                                   ng-maxlength="20"
+                                   required>
+                                   
+                            <b class="tooltip tooltip-top-right"><i class="fa fa-lock txt-color-teal"></i> Please enter your password</b>
+                            <span class="err" ng-show="Login.password.$invalid && !Login.password.$pristine">Invalid Password</span>
+                        </label>
+                        @*<div class="note">
+                        <a href="forgotpassword.html">Forgot password?</a>
+                    </div>*@
+                    </section>
+
+                    @*<section>
+                    <label class="checkbox">
+                        <input type="checkbox" name="remember" checked="">
+                        <i></i>Stay signed in
+                    </label>
+                </section>*@
+
+                </fieldset>
+                <footer>
+                    <button ng-disabled="Login.$invalid || Login.$pristine" type="button" ng-click="login()" class="btn btn-sm btn-primary">
+                        Sign in
+                    </button>
+                </footer>
+            </form>
+
+        </div>
+    </div>
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4"></div>
+</div>
+
+
+@section angular{
+    <script type="text/javascript">
+    var actionUrls = {
+        loginPage: "@Url.RouteUrl("Default", new { httpRoute = "", controller = "Home", action = "Login" })",
+        employeePage: "@Url.RouteUrl("Default", new { httpRoute = "", controller = "Employee", action = "Index" })",
+        managerPage: "@Url.RouteUrl("Default", new { httpRoute = "", controller = "Manager", action = "Index" })",
+        accountantPage : "@Url.RouteUrl("Default", new { httpRoute = "", controller = "Accountant", action = "Index" })"
+        };
+    </script>
+
+    <!-- ANGULARJS -->
+
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts/angular-route.js"></script>
+    <script src="~/Scripts/angular/module/expenseModule.js"></script>
+    <script src="~/Scripts/angular/service/expenseService.js"></script>
+    <script src="~/Scripts/angular/controller/loginController.js"></script>
+
+}

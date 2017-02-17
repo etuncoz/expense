@@ -1,0 +1,58 @@
+﻿
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="row">
+    <div class="jumbotron" data-ng-app="expenseModule" data-ng-controller="managerController">
+
+        <div class="row" ng-show="expenses.length>0">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th class="col-md-3">Created Date</th>
+                        <th class="col-md-3">Total Amount</th>
+                        <th class="col-md-3">Employee</th>
+                        <th class="col-md-3"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="expense in expenses | startFrom:(currentPage-1)*pageSize |limitTo:pageSize">
+                        <td>{{expense.createdDate}}</td>
+                        <td>{{expense.totalAmount}}</td>
+                        <td>{{expense.userName}}</td>
+                        <td><a href="/Manager/Approval/{{expense.id}}" class="btn btn-info btn-sm">Details</a></td>
+                    </tr>
+                </tbody>
+            </table>
+            <ul uib-pagination total-items="expenses.length" ng-model="currentPage" items-per-page="pageSize" class="pull-right"></ul>
+            <br />
+        </div>
+        <div class="jumbotron" ng-show="expenses.length == 0">
+            <p class="lead">Currently no expenses for you approval.</p>
+        </div>
+
+    </div>
+</div>
+
+
+@section angular{
+    <script type="text/javascript">
+        var actionUrls = {
+            getExpenseByActionId: "@Url.RouteUrl("DefaultApi", new { httpRoute = "", controller = "Expenses", action = "GetExpenseByActionId" })"
+        };
+    </script>
+
+    <!-- ANGULARJS -->
+
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts/angular-route.js"></script>
+    <script src="~/Scripts/angular/module/expenseModule.js"></script>
+    <script src="~/Scripts/angular/service/expenseService.js"></script>
+    <script src="~/Scripts/angular/directive/confirmationDirective.js"></script>
+    <script src="~/Scripts/angular/directive/pageFilter.js"></script>
+    <script src="~/Scripts/angular/controller/managerController.js"></script>
+    <script src="~/Scripts/moment.js"></script>
+
+}

@@ -16,8 +16,6 @@ namespace ExpenseApp.Data
     {
         public Expense()
         {
-            UserId = 1;
-            CreatedDate = DateTime.Now;;
             this.ExpenseHistories = new HashSet<ExpenseHistory>();
             this.ExpenseItems = new HashSet<ExpenseItem>();
         }

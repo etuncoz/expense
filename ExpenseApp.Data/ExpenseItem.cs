@@ -14,11 +14,6 @@ namespace ExpenseApp.Data
     
     public partial class ExpenseItem
     {
-        public ExpenseItem()
-        {
-            Description = "";
-            ExpenseItemDate = DateTime.Now;
-        }
         public int ID { get; set; }
         public int ExpenseId { get; set; }
         public string Description { get; set; }

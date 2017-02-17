@@ -1,53 +1,65 @@
-﻿@{
+﻿@model ExpenseApp.Engine.Domain.ViewModels.UserViewModel
+@{
     ViewBag.Title = "Expense Lists";
 }
 
-<h2>Expense Lists</h2>
+<div class="row">
+    <div class="jumbotron" data-ng-app="expenseModule" data-ng-controller="employeeController">
 
-<div class="table-responsive" data-ng-app="expenseModule" data-ng-controller="expensesController">
+        <div class="row" ng-show="expenses.length>0">
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th class="col-md-3">Created Date</th>
+                        <th class="col-md-3">Total Amount</th>
+                        <th class="col-md-3">Status</th>
+                        <th class="col-md-1"></th>
+                        <th class="col-md-1"></th>
+                        <th class="col-md-1"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="expense in expenses | startFrom:(currentPage-1)*pageSize |limitTo:pageSize">
+                        <td>{{expense.createdDate}}</td>
+                        <td>{{expense.totalAmount}}</td>
+                        <td>{{expense.currentStatus}}</td>
+                        <td><a ng-show="expense.lastExpenseActionId == 1 || expense.lastExpenseActionId == 5" href="/Employee/Saveexpense/{{expense.id}}?userId={{variables.userId}}" class="btn btn-info btn-sm">Edit</a></td>
+                        <td><button ng-show="expense.lastExpenseActionId == 1" ng-confirm-click=" Selected expense will be deleted." class=" btn btn-danger btn-sm" confirmed-click="deleteExpense({{expense.id}})">Delete</button></td>
+                        <td><button ng-show="expense.lastExpenseActionId == 1" ng-confirm-click="Selected expense will be sent to a manager to get approved." class="btn btn-success btn-sm" confirmed-click="sendForApproval({{expense.id}})">Approve</button></td>
+                    </tr>
+                </tbody>
+            </table>
+            <ul uib-pagination total-items="expenses.length" ng-model="currentPage" items-per-page="pageSize" class="pull-right"></ul>
+            <br />
+            <div class="jumbotron" ng-show="expenses.length == 0">
+                <p class="lead">After you've created an expense list, you can edit, delete or send it for management approval.</p>
+            </div>
 
-    <table class="table table-bordered table-hover">
-        <thead>
-            <tr>
-                <th class="col-md-2">Created Date</th>
-                <th class="col-md-2">Total Amount</th>
-                <th class="col-md-2">Status</th>
-                <th class="col-md-2">Links</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr ng-repeat="expense in expenses | startFrom:(currentPage-1)*entryLimit | limitTo:entryLimit">
-                <td class="col-md-2">{{expense.createdDate}}</td>
-                <td class="col-md-2">{{expense.totalAmount}}</td>
-                <td class="col-md-2">{{expense.lastExpenseActionId}}</td>
-                <td class="col-md-2">
-                    <a href="#" class="btn btn-default btn-sm">Send</a>
-                    <a href="~/employee/editexpense/{{expense.id}}" class="btn btn-default btn-sm">Edit</a>
-                    <a href="#" class="btn btn-default btn-sm">Delete</a>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <pagination data-boundary-links="true" data-num-pages="noOfPages" data-current-page="currentPage" max-size="maxSize" class="pagination-small" data-previous-text="&laquo;" data-next-text="&raquo;"></pagination>
-    <a href="~/Employee/CreateExpense" class="btn btn-default btn-sm">Create Expense</a>
+        </div>
+        <a href="~/Employee/Saveexpense/0?userId={{variables.userId}}" class="btn btn-primary btn-sm">Create Expense</a>
+    </div>
 </div>
 
 
 @section angular{
-
     <script type="text/javascript">
-    var actionUrls = {
-        GetAllExpenses: "@Url.RouteUrl("DefaultApi", new { httpRoute = "", controller = "Expenses", action = "GetExpenseByUserId" })"
+        var actionUrls = {
+            getExpenseByUserId: "@Url.RouteUrl("DefaultApi", new { httpRoute = "", controller = "Expenses", action = "GetExpenseByUserId" })",
+            deleteExpense: "@Url.RouteUrl("DefaultApi", new { httpRoute = "", controller = "Expenses", action = "DeleteExpense" })",
+            sendExpenseForApproval: "@Url.RouteUrl("DefaultApi", new { httpRoute = "", controller = "Expenses", action = "SendExpenseForApproval" })"
         };
+
+        var userId = @Model.ID;
     </script>
 
     <!-- ANGULARJS -->
     <script src="~/Scripts/angular.js"></script>
     <script src="~/Scripts/angular-route.js"></script>
-    <script src="~/Scripts/angular-ui/ui-bootstrap.js"></script>
     <script src="~/Scripts/angular/module/expenseModule.js"></script>
     <script src="~/Scripts/angular/service/expenseService.js"></script>
-    <script src="~/Scripts/angular/controller/expensesController.js"></script>
+    <script src="~/Scripts/angular/directive/confirmationDirective.js"></script>
     <script src="~/Scripts/angular/directive/pageFilter.js"></script>
+    <script src="~/Scripts/angular/controller/employeeController.js"></script>
     <script src="~/Scripts/moment.js"></script>
+
 }

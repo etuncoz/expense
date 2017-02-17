@@ -1,0 +1,173 @@
+﻿@model ExpenseApp.Engine.Domain.ViewModels.ExpenseViewModel
+@{
+    ViewBag.Title = "Expense List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    input.ng-invalid.ng-dirty {
+        border: 1px solid red;
+    }
+    .err{
+        color:red;
+    }
+</style>
+
+<div class="widget-body no-padding" data-ng-app="expenseModule" ng-controller="saveExpenseController">
+    <span ng-show="rejectReason.length > 0">
+        Reject Reason:
+        <p class="err">{{rejectReason}}</p>
+    </span>
+        <fieldset id="order-form" class="smart-form" novalidate="novalidate">
+            <div class="row">
+                <section class="form‐group col col-3">
+                    <label><strong>Date</strong></label>
+                </section>
+                <section class="form‐group col col-3">
+                    <label><strong>Amount</strong></label>
+                </section>
+                <section class="form‐group col col-3">
+                    <label><strong>Description</strong></label>
+                </section>
+            </div>
+        </fieldset>
+        <form name="ExpenseItem">
+            <fieldset id="ExpenseItemLine" class="smart-form" novalidate="novalidate" ng-show="expenseItems" ng-cloak ng-repeat="item in expenseItems">
+                <div class="row">
+                    <section class="form‐group col col-3">
+                        <div class="input">
+                            <i class="icon-append fa fa-calendar"></i>
+                            <input type="text"
+                                   name="date"
+                                   class="expenseDate"
+                                   placeholder="01.01.2017"
+                                   value="{{ item.expenseItemDate | date:'dd.MM.yyyy' }}"
+                                   ng-model="item.expenseItemDate"
+                                   ng-pattern="/^(\d{2}).(\d{2}).(\d{4})$/"
+                                   datepicker=""
+                                   required>
+                            <span class="err" ng-show="ExpenseItem.date.$invalid">Invalid Date</span>
+                        </div>
+                    </section>
+                    <section class="form‐group col col-3">
+                        <label class="input">
+                            <input class="form-control"
+                                   name="amount"
+                                   type="number"
+                                   min="1"
+                                   ng-minlength="1"
+                                   ng-maxlength="5"
+                                   placeholder="Price"
+                                   value="{{ item.amount }}"
+                                   ng-model="item.amount"
+                                   ng-change="getTotal()"
+                                   required>
+                            <span class="err" ng-show="ExpenseItem.amount.$invalid">Invalid Amount</span>
+                        </label>
+                    </section>
+                    <section class="form‐group col col-3">
+                        <label class="input">
+                            <input class="form-control"
+                                   name="description"
+                                   type="text"
+                                   ng-minlength="4"
+                                   ng-maxlength="100"
+                                   placeholder="Description"
+                                   value="{{ item.description }}"
+                                   ng-model="item.description"
+                                   required>
+                            <span class="err" ng-show="ExpenseItem.description.$invalid">Invalid Description</span>
+                        </label>
+                    </section>
+                    <section class="form‐group col col-3">
+                        <button type="button" class="btn btn-sm btn-default" ng-click=deleteExpenseItem(item.id)>Delete</button>
+                    </section>
+                </div>
+            </fieldset>
+        </form>
+        <form name="NewExpenseItem">
+            <fieldset id="newExpenseItemLine" class="smart-form" novalidate="novalidate">
+
+                <div class="row">
+                    <label hidden="hidden" ng-value="newExpenseItem.id"></label>
+                    <section class="form‐group col col-3">
+                        <div class="input">
+                            <i class="icon-append fa fa-calendar"></i>
+
+                            <input type="text"
+                                   class="form-control"
+                                   name="date"
+                                   id="newExpenseDate"
+                                   placeholder="01.01.2017"
+                                   ng-model="newExpenseItem.expenseItemDate"
+                                   ng-pattern="/^(\d{2}).(\d{2}).(\d{4})$/"
+                                   datepicker=""
+                                   required>
+                            <span class="err" ng-show="NewExpenseItem.date.$invalid && !NewExpenseItem.date.$pristine">Invalid Date</span>
+                        </div>
+                    </section>
+                    <section class="form‐group col col-3">
+                        <label class="input">
+                            <input class="form-control"
+                                   name="amount"
+                                   type="number"
+                                   min="1"
+                                   ng-minlength="1"
+                                   ng-maxlength="5"
+                                   placeholder="Price"
+                                   ng-model="newExpenseItem.amount"
+                                   required>
+                            <span class="err" ng-show="NewExpenseItem.amount.$invalid && !NewExpenseItem.amount.$pristine">Invalid Amount</span>
+                        </label>
+                    </section>
+                    <section class="form‐group col col-3">
+                        <label class="input">
+                            <input class="form-control"
+                                   name="description"
+                                   type="text"
+                                   maxlength="50"
+                                   placeholder="Description"
+                                   ng-model="newExpenseItem.description"
+                                   ng-minlength="4"
+                                   ng-maxlength="100"
+                                   required>
+                            <span class="err" ng-show="NewExpenseItem.description.$invalid && !NewExpenseItem.description.$pristine">Invalid Description</span>
+                        </label>
+                    </section>
+                    <section class="form‐group col col-3">
+                        <button ng-disabled="NewExpenseItem.$invalid" type="button" class="btn btn-sm btn-default" ng-click="addExpenseItem()">Add</button>
+                    </section>
+                </div>
+                <p ng-cloak>Total Amount : {{ variables.totalAmount }} TL<p>
+                    <br />
+                    <button ng-disabled="(NewExpenseItem.$invalid && !NewExpenseItem.$pristine) || (ExpenseItem.$invalid)"
+                            type="submit" class="btn btn-sm btn-primary"
+                            ng-click="saveExpense()">
+                        Save Expense
+                    </button>
+            </fieldset>
+        </form>
+</div>
+    
+
+
+@section angular{
+    <script type="text/javascript">
+    var currentExpenseId = @Model.ID,
+        currentUserId = @Model.UserId,
+        actionUrls = {
+            getExpenseItemByExpenseId: "@Url.RouteUrl("DefaultApi", new { httpRoute = "", controller = "Expenses", action = "GetExpenseItemByExpenseId" })",
+            saveExpense : "@Url.RouteUrl("DefaultApi", new { httpRoute = "", controller = "Expenses", action = "SaveExpense" })",
+                getRejectReason : "@Url.RouteUrl("DefaultApi", new { httpRoute = "", controller = "Expenses", action = "GetExpenseRejectReason" })",
+                saveSuccess : "@Url.RouteUrl("Default", new { httpRoute = "", controller = "Employee", action = "Index", id = Model.UserId })"
+    };
+    </script>
+    <!-- ANGULARJS -->
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts/angular-route.js"></script>
+    <script src="~/Scripts/angular/module/expenseModule.js"></script>
+    <script src="~/Scripts/angular/service/expenseService.js"></script>
+    <script src="~/Scripts/angular/controller/saveExpenseController.js"></script>
+    <script src="~/Scripts/angular/directive/datepickerDirective.js"></script>
+    <script src="~/Scripts/moment.js"></script>
+}

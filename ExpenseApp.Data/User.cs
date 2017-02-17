@@ -17,7 +17,6 @@ namespace ExpenseApp.Data
         public User()
         {
             this.Expenses = new HashSet<Expense>();
-            this.Logs = new HashSet<Log>();
         }
     
         public int ID { get; set; }
@@ -29,7 +28,6 @@ namespace ExpenseApp.Data
         public bool IsActive { get; set; }
     
         public virtual ICollection<Expense> Expenses { get; set; }
-        public virtual ICollection<Log> Logs { get; set; }
         public virtual UserRole UserRole { get; set; }
     }
 }

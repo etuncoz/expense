@@ -10,6 +10,8 @@ namespace ExpenseApp.Engine.Request
     public class ExpenseSaveRequest
     {
         public IEnumerable<ExpenseItemDto> ExpenseItemsDto { get; set; }
+        public IEnumerable<IdDto> DeletedExpenseItems { get; set; }
         public int ExpenseId { get; set; }
+        public int UserId { get; set; }
     }
 }

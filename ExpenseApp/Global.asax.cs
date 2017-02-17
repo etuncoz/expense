@@ -2,7 +2,8 @@
 using System.Web.Optimization;
 using System.Web.Routing;
 using System.Web.Http;
-using AutoMapper;
+using System;
+using System.Web;
 
 
 namespace ExpenseApp
@@ -11,12 +12,19 @@ namespace ExpenseApp
     {
         protected void Application_Start()
         {
-            Mapper.Initialize(c => c.AddProfile<MappingProfile>());
+            log4net.Config.XmlConfigurator.Configure();
             GlobalConfiguration.Configure(WebApiConfig.Register);
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+        }
+        protected void Session_Start(Object sender, EventArgs e)
+        {
+            Session["UserId"] = null;
+            Session["UserEmail"] = null;
+            Session["UserName"] = null;
+            Session["UserRoleId"] = null;
         }
     }
 }

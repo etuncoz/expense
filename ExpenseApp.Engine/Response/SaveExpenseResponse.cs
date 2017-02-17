@@ -11,6 +11,5 @@ namespace ExpenseApp.Engine.Response
     {
         public int ExpenseId { get; set; }
         public IEnumerable<ExpenseItemDto> ExpenseItemsDto { get; set; }
-
     }
 }

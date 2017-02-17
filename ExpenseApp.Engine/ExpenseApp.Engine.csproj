@@ -40,6 +40,9 @@
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.7\lib\net45-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
@@ -52,10 +55,12 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.2\lib\net45\System.Net.Http.Formatting.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
     <Reference Include="System.Web.Http, Version=5.2.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Microsoft.AspNet.WebApi.Core.5.2.2\lib\net45\System.Web.Http.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web.Mvc, Version=4.0.0.1, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -63,25 +68,40 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="Domain\Constants\SessionConstants.cs" />
     <Compile Include="Domain\ExpenseDto.cs" />
     <Compile Include="Domain\ExpenseItemDto.cs" />
+    <Compile Include="Domain\IdDto.cs" />
+    <Compile Include="Domain\UserDto.cs" />
+    <Compile Include="Domain\ViewModels\UserViewModel.cs" />
+    <Compile Include="Enum\ApprovalStatusEnum.cs" />
+    <Compile Include="Enum\ConfigEnum.cs" />
+    <Compile Include="Enum\StatusEnum.cs" />
+    <Compile Include="Enum\UserRoleEnum.cs" />
+    <Compile Include="Handlers\ExpenseActionHandlers.cs" />
     <Compile Include="Handlers\ExpenseHandlers.cs" />
+    <Compile Include="Handlers\ServiceHandler.cs" />
+    <Compile Include="Handlers\UserHandlers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Domain\ViewModels\ExpenseItemViewModel.cs" />
     <Compile Include="Domain\ViewModels\ExpenseViewModel.cs" />
+    <Compile Include="Request\ExpenseApprovalRequest.cs" />
     <Compile Include="Request\ExpenseGetRequest.cs" />
-    <Compile Include="Request\ExpenseCreateRequest.cs" />
+    <Compile Include="Request\IdRequest.cs" />
     <Compile Include="Request\ExpenseSaveRequest.cs" />
+    <Compile Include="Request\LoginRequest.cs" />
     <Compile Include="Response\BaseResponse.cs" />
+    <Compile Include="Response\ApprovalExpenseResponse.cs" />
+    <Compile Include="Response\GetCurrentExpenseResponse.cs" />
+    <Compile Include="Response\GetRejectReasonResponse.cs" />
+    <Compile Include="Response\LoginResponse.cs" />
     <Compile Include="Response\SaveExpenseResponse.cs" />
     <Compile Include="Response\DeleteExpenseResponse.cs" />
     <Compile Include="Response\GetExpenseItemsResponse.cs" />
     <Compile Include="Response\GetExpensesResponse.cs" />
+    <Compile Include="Response\ShouldCheckEmailResponse.cs" />
+    <Compile Include="Response\UserResponse.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Enum\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\ExpenseApp.Data\ExpenseApp.Data.csproj">
       <Project>{e36cc12c-f688-48a8-a4d4-1ecf60509e59}</Project>

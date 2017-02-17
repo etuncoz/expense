@@ -9,5 +9,6 @@
         public decimal Amount { get; set; }
         public System.DateTime ExpenseItemDate { get; set; }
 
+
     }
 }
