@@ -18,7 +18,7 @@ namespace ExpenseApp.Engine.Handlers
         public static GetCurrentExpenseResponse GetCurrentExpenseStatus(int expenseId)
         {
             GetCurrentExpenseResponse response = new GetCurrentExpenseResponse();
-            ExpenseAppEntities entity = new ExpenseAppEntities();
+            ExpenseDbContext entity = new ExpenseDbContext();
 
             try
             {
@@ -47,7 +47,7 @@ namespace ExpenseApp.Engine.Handlers
         public static BaseResponse SendExpenseForApproval(IdRequest request)
         {
             BaseResponse response = new BaseResponse();
-            ExpenseAppEntities entity = new ExpenseAppEntities();
+            ExpenseDbContext entity = new ExpenseDbContext();
 
             try
             {
@@ -79,7 +79,7 @@ namespace ExpenseApp.Engine.Handlers
 
         public static ApprovalExpenseResponse ApproveOrRejectExpense(ExpenseApprovalRequest request) 
         {
-            ExpenseAppEntities entity = new ExpenseAppEntities();
+            ExpenseDbContext entity = new ExpenseDbContext();
             ApprovalExpenseResponse response = new ApprovalExpenseResponse();
 
             try
@@ -116,7 +116,7 @@ namespace ExpenseApp.Engine.Handlers
             return response;
         }
 
-        private static void ApproveExpense(ExpenseApprovalRequest request, ExpenseAppEntities entity, ApprovalExpenseResponse response)
+        private static void ApproveExpense(ExpenseApprovalRequest request, ExpenseDbContext entity, ApprovalExpenseResponse response)
         {
             var expenseToBeApproved = (from expense in entity.Expenses
                           where expense.ID == request.ExpenseId
@@ -131,7 +131,7 @@ namespace ExpenseApp.Engine.Handlers
             response.ApprovalStatus = (int)ApprovalStatusEnum.Approved;
             response.IsSuccess = true;
         }
-        private static void RejectExpense(ExpenseApprovalRequest request, ExpenseAppEntities entity, ApprovalExpenseResponse response)
+        private static void RejectExpense(ExpenseApprovalRequest request, ExpenseDbContext entity, ApprovalExpenseResponse response)
         {
             var expenseToBeRejected = (from expense in entity.Expenses
                                        where expense.ID == request.ExpenseId
@@ -150,7 +150,7 @@ namespace ExpenseApp.Engine.Handlers
         public static BaseResponse PayExpense(IdRequest request)
         {
             BaseResponse response = new BaseResponse();
-            ExpenseAppEntities entity = new ExpenseAppEntities();
+            ExpenseDbContext entity = new ExpenseDbContext();
 
             try
             {

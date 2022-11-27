@@ -7,13 +7,14 @@ using ExpenseApp.Data;
 using ExpenseApp.Engine.Response;
 using System.Net.Mail;
 using ExpenseApp.Engine.Enum;
+using ExpenseApp.Data.Entities;
 
 namespace ExpenseApp.Engine.Handlers
 {
     public class ServiceHandler
     {
         protected static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
-        public static BaseResponse CheckThenSendEmail(ExpenseAppEntities entity,BaseResponse response)
+        public static BaseResponse CheckThenSendEmail(ExpenseDbContext entity,BaseResponse response)
         {
 
             var managers = (from u in entity.Users
@@ -33,7 +34,7 @@ namespace ExpenseApp.Engine.Handlers
             response.IsSuccess = true;
             return response;
         }
-        public static void SendEmail(ExpenseAppEntities entity,User user)
+        public static void SendEmail(ExpenseDbContext entity, User user)
         {
             MailMessage mail = new MailMessage("noreply@veripark.com", user.Email);
             SmtpClient client = new SmtpClient();
@@ -66,7 +67,7 @@ namespace ExpenseApp.Engine.Handlers
             }
             
         }
-        public static ShouldCheckEmailResponse CheckIfManagerShouldBeEmailed(ExpenseAppEntities entity)
+        public static ShouldCheckEmailResponse CheckIfManagerShouldBeEmailed(ExpenseDbContext entity)
         {
             ShouldCheckEmailResponse response = new ShouldCheckEmailResponse();
 

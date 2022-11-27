@@ -19,7 +19,7 @@ namespace ExpenseApp.EmailService
         public void Execute(IJobExecutionContext context)
         {
             BaseResponse response = new BaseResponse();
-            ExpenseAppEntities entity = new ExpenseAppEntities();
+            ExpenseDbContext entity = new ExpenseDbContext();
             try
             {
                 ServiceHandler.CheckThenSendEmail(entity,response);

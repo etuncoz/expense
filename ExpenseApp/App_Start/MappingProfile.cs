@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using ExpenseApp.Data;
+using ExpenseApp.Data.Entities;
 using ExpenseApp.Engine.Domain;
 
 namespace ExpenseApp

@@ -11,7 +11,7 @@ using ExpenseApp.Engine.Response;
 using ExpenseApp.Engine.Request;
 using System.Data.Entity;
 using log4net;
-
+using ExpenseApp.Data.Entities;
 
 namespace ExpenseApp.Engine.Handlers
 {
@@ -21,7 +21,7 @@ namespace ExpenseApp.Engine.Handlers
         public static BaseResponse DeleteExpenseById(IdRequest request)
         {
             BaseResponse response = new BaseResponse();
-            ExpenseAppEntities entity = new ExpenseAppEntities();
+            ExpenseDbContext entity = new ExpenseDbContext();
 
             try
             {
@@ -72,14 +72,11 @@ namespace ExpenseApp.Engine.Handlers
         public static GetExpensesResponse GetExpenseByUserId(int userId)
         {
             GetExpensesResponse response = new GetExpensesResponse();
-            ExpenseAppEntities entity = new ExpenseAppEntities();
+            ExpenseDbContext entity = new ExpenseDbContext();
 
             try
             {
                 response.ExpenseDto = from expense in entity.Expenses.Where(e=>e.UserId == userId)
-                                      //where expense.UserId == userId
-                                      //from user in Entity.Users.Where(user => user.ID == expense.UserId)
-                                      //from history in Entity.ExpenseHistories.Where(history => history.ExpenseStatusId == expense.LastExpenseActionId)
                                       from status in entity.ExpenseStatus.Where(status => status.ID == expense.LastExpenseActionId)
                                       select new ExpenseDto
                                       {
@@ -96,12 +93,6 @@ namespace ExpenseApp.Engine.Handlers
                             select u).Single();
                 response.UserId = user.ID;
 
-                //test
-                //var expense = Entity.Expenses
-                //            .Include(e => e.User)
-                //            .Include(e => e.ExpenseHistories)
-                //            .FirstOrDefault(x => x.ID == 4);
-                //var a = expense.ExpenseHistories.LastOrDefault().ExpenseStatusId;
 
                 response.IsSuccess = response.ExpenseDto == null ? false : true;
             }
@@ -116,7 +107,7 @@ namespace ExpenseApp.Engine.Handlers
         public static GetExpensesResponse GetExpenseByActionId(IdRequest request)
         {
             GetExpensesResponse response = new GetExpensesResponse();
-            ExpenseAppEntities entity = new ExpenseAppEntities();
+            ExpenseDbContext entity = new ExpenseDbContext();
 
             try
             {
@@ -148,7 +139,7 @@ namespace ExpenseApp.Engine.Handlers
         public static GetExpenseItemsResponse GetExpenseItemsByExpenseId(int expenseId)
         {
             GetExpenseItemsResponse response = new GetExpenseItemsResponse();
-            ExpenseAppEntities entity = new ExpenseAppEntities();
+            ExpenseDbContext entity = new ExpenseDbContext();
 
             try
             {
@@ -179,7 +170,7 @@ namespace ExpenseApp.Engine.Handlers
         public static SaveExpenseResponse SaveExpense(ExpenseSaveRequest request)
         {
             SaveExpenseResponse response = new SaveExpenseResponse();
-            ExpenseAppEntities entity = new ExpenseAppEntities();
+            ExpenseDbContext entity = new ExpenseDbContext();
 
             try
             {
@@ -207,7 +198,7 @@ namespace ExpenseApp.Engine.Handlers
             return response;
         }
 
-        private static void CreateExpense(int userId, IEnumerable<ExpenseItemDto> expenseItemsDto, ExpenseAppEntities entity, SaveExpenseResponse response)
+        private static void CreateExpense(int userId, IEnumerable<ExpenseItemDto> expenseItemsDto, ExpenseDbContext entity, SaveExpenseResponse response)
         {
             Expense expense = new Expense();
             expense.CreatedDate = DateTime.Now;
@@ -227,7 +218,7 @@ namespace ExpenseApp.Engine.Handlers
             response.IsSuccess = true;
         }
 
-        private static void UpdateExpense(ExpenseSaveRequest request, ExpenseAppEntities entity, SaveExpenseResponse response)
+        private static void UpdateExpense(ExpenseSaveRequest request, ExpenseDbContext entity, SaveExpenseResponse response)
         {
             var expenseInDb = (from e in entity.Expenses
                                where e.ID == request.ExpenseId
@@ -265,7 +256,7 @@ namespace ExpenseApp.Engine.Handlers
             response.IsSuccess = true;
         }
 
-        private static void CreateExpenseItem(Expense expenseInDb, ExpenseItemDto expenseItemDto, ExpenseAppEntities entity)
+        private static void CreateExpenseItem(Expense expenseInDb, ExpenseItemDto expenseItemDto, ExpenseDbContext entity)
         {
             ExpenseItem expenseItem = new ExpenseItem();
             expenseItem.ExpenseId = expenseInDb.ID;
@@ -278,7 +269,7 @@ namespace ExpenseApp.Engine.Handlers
             entity.SaveChanges();
         }
 
-        private static void DeleteExpenseItem(IEnumerable<IdDto> deletedExpenseItems, ExpenseAppEntities entity, SaveExpenseResponse response)
+        private static void DeleteExpenseItem(IEnumerable<IdDto> deletedExpenseItems, ExpenseDbContext entity, SaveExpenseResponse response)
         {
             foreach (var item in deletedExpenseItems)
             {
@@ -295,7 +286,7 @@ namespace ExpenseApp.Engine.Handlers
             }
         }
 
-        private static void UpdateExpenseItem(ExpenseItem expenseItemInDb, ExpenseItemDto expenseItemDto, ExpenseAppEntities entity)
+        private static void UpdateExpenseItem(ExpenseItem expenseItemInDb, ExpenseItemDto expenseItemDto, ExpenseDbContext entity)
         {
             expenseItemInDb.ExpenseItemDate = expenseItemDto.ExpenseItemDate;
             expenseItemInDb.Description = expenseItemDto.Description;
@@ -303,13 +294,13 @@ namespace ExpenseApp.Engine.Handlers
             entity.SaveChanges();
         }
 
-        private static void DeleteExpense(Expense expense, ExpenseAppEntities entity)
+        private static void DeleteExpense(Expense expense, ExpenseDbContext entity)
         {
             entity.Expenses.Remove(expense);
             entity.SaveChanges();
         }
 
-        private static void DeleteExpenseHistory(Expense expense, ExpenseAppEntities entity)
+        private static void DeleteExpenseHistory(Expense expense, ExpenseDbContext entity)
         {
             var expenseHistories = (from histories in entity.ExpenseHistories
                                     where histories.ExpenseId == expense.ID
@@ -321,7 +312,7 @@ namespace ExpenseApp.Engine.Handlers
             entity.SaveChanges();
         }
 
-        public static void CreateExpenseHistory(int expenseId, ExpenseAppEntities entity, string rejectReason)
+        public static void CreateExpenseHistory(int expenseId, ExpenseDbContext entity, string rejectReason)
         {
             var expense = (from e in entity.Expenses
                            where e.ID == expenseId
@@ -360,7 +351,7 @@ namespace ExpenseApp.Engine.Handlers
         public static GetRejectReasonResponse GetRejectReason(ExpenseGetRequest request)
         {
             GetRejectReasonResponse response = new GetRejectReasonResponse();
-            ExpenseAppEntities entity = new ExpenseAppEntities();
+            ExpenseDbContext entity = new ExpenseDbContext();
             try
             {
                 response.RejectReason = (from eh in entity.ExpenseHistories

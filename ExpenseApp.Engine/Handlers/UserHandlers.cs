@@ -8,7 +8,6 @@ using ExpenseApp.Data;
 using ExpenseApp.Engine.Domain;
 using ExpenseApp.Engine.Response;
 using ExpenseApp.Engine.Request;
-using System.Web.Mvc;
 using ExpenseApp.Engine.Domain.Constants;
 
 namespace ExpenseApp.Engine.Handlers
@@ -18,7 +17,7 @@ namespace ExpenseApp.Engine.Handlers
         protected static readonly log4net.ILog log = log4net.LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
         public static LoginResponse Login(LoginRequest request)
         {
-            ExpenseAppEntities entity = new ExpenseAppEntities();
+            ExpenseDbContext entity = new ExpenseDbContext();
             LoginResponse response = new LoginResponse();
 
             try
@@ -57,7 +56,7 @@ namespace ExpenseApp.Engine.Handlers
 
         public static BaseResponse Logoff() 
         {
-            ExpenseAppEntities entity = new ExpenseAppEntities();
+            ExpenseDbContext entity = new ExpenseDbContext();
             BaseResponse response = new BaseResponse();
 
             //Check if session exists
@@ -88,7 +87,7 @@ namespace ExpenseApp.Engine.Handlers
 
         //public static UserResponse CheckIfUserIsActive()
         //{
-        //    ExpenseAppEntities entity = new ExpenseAppEntities();
+        //    ExpenseDbContext entity = new ExpenseDbContext();
         //    UserResponse response = new UserResponse();
         //    try
         //    {
